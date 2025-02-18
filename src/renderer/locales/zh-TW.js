@@ -1,7 +1,7 @@
 export default {
   app: {
     title: '我的 MMA 知識庫',
-    version: '1.0.2',
+    version: '1.0.3',
     newNote: '新建筆記'
   },
   menu: {
@@ -36,6 +36,9 @@ export default {
   createSection: {
     createNote: '創建筆記',
     createFromTemplate: '從模板創建',
+    builtInTemplates: '內建模板',
+    customTemplates: '自定義模板',
+    importTemplate: '導入模板',
     createBlankNote: '創建空白筆記',
     selectFolder: '選擇保存位置',
     enterFileName: '請輸入文件名稱',
@@ -45,6 +48,12 @@ export default {
     createSuccess: '筆記創建成功',
     cancel: '取消',
     create: '創建',
+    deleteTemplateConfirm: '確定要刪除模板 {name} 嗎？',
+    deleteTemplateSuccess: '刪除模板成功',
+    deleteTemplateFailed: '刪除模板失敗',
+    warning: '警告',
+    confirm: '確定',
+    cancel: '取消'
   },
   toolbar: {
     addRepo: '添加知識庫',
@@ -74,6 +83,7 @@ export default {
     warning: '警告',
     confirm: '確定',
     cancel: '取消',
+    backConfirm: '確定要返回嗎？'
   },
   notifications: {
     saveSuccess: '保存成功',
@@ -95,6 +105,23 @@ export default {
     deleteNote: '刪除筆記',
     warning: '警告',
     cancel: '取消',
-    confirm: '確定' 
+    confirm: '確定',
+    createSuccess: '筆記創建成功',
+    starSuccess: '收藏模板',
+    unstarSuccess: '取消收藏模板',
+    unfavoriteSuccess: '取消收藏筆記',
+    importFolderSuccess: '導入文件夾成功',
+    importFolderFailed: '導入文件夾失敗',
+    importMarkdownSuccess: '導入 Markdown 成功',
+    importMarkdownFailed: '導入 Markdown 失敗',
+    importPicturesSuccess: '導入圖片成功',
+    importPicturesFailed: '導入圖片失敗',
+    importSuccess: '導入成功',
+    importFailed: '導入失敗',
+    importFolder: '導入文件夾',
+    importMarkdown: '導入 Markdown',
+    importPictures: '導入圖片',
+    importPicturesSuccess: '導入圖片成功',
+    importPicturesFailed: '導入圖片失敗'
   }
 } 

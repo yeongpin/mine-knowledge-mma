@@ -152,8 +152,8 @@ const removeFavorite = (item) => {
   // Update notes store status
   notesStore.updateStarStatus(item.path, false)
   $notify.info(
-    '取消收藏',
-    `已取消收藏: ${item.name}`
+    $t('notifications.unfavoriteSuccess'),
+    `${$t('notifications.unfavoriteSuccess')} ${item.name}`
   )
 }
 

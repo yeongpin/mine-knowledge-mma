@@ -1,4 +1,12 @@
 
+## [1.0.3] - 2025-02-19
+- Enhance template management and internationalization
+- Add custom template store with star/import/delete functionality
+- Improve CreateSection template selection dialog with new UI and interactions
+- Update localization files with new template-related translations
+- Bump project version to 1.0.3
+
+
 ## [1.0.2] - 2025-02-18
 
 - Add logo and update app branding

@@ -1,7 +1,7 @@
 export default {
   app: {
     title: 'Mine Knowledge MMA',
-    version: '1.0.2',
+    version: '1.0.3',
     newNote: 'New Note'
   },
   menu: {
@@ -35,6 +35,9 @@ export default {
   createSection: {
     createNote: 'Create Note',
     createFromTemplate: 'Create from Template',
+    builtInTemplates: 'Built-in Templates',
+    customTemplates: 'Custom Templates',
+    importTemplate: 'Import Template',
     createBlankNote: 'Create Blank Note',
     selectFolder: 'Select Folder',
     enterFileName: 'Enter File Name',
@@ -43,7 +46,13 @@ export default {
     blankNote: 'Blank Note',
     create: 'Create',
     cancel: 'Cancel',
-    createSuccess: 'Section created successfully'
+    createSuccess: 'Section created successfully',
+    deleteTemplateConfirm: 'Are you sure you want to delete template {name}?',
+    deleteTemplateSuccess: 'Template deleted successfully',
+    deleteTemplateFailed: 'Failed to delete template',
+    warning: 'Warning',
+    confirm: 'Confirm',
+    cancel: 'Cancel'
   },
   toolbar: {
     addRepo: 'Add Repository',
@@ -74,7 +83,9 @@ export default {
     backConfirm: 'There are unsaved changes. Are you sure you want to leave?',
     warning: 'Warning',
     confirm: 'Confirm',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    back: 'Back',
+    backConfirm: 'Are you sure you want to leave?'
   },
   notifications: {
     saveSuccess: 'Save Success',
@@ -96,6 +107,24 @@ export default {
     deleteNote: 'Delete Note',
     warning: 'Warning',
     cancel: 'Cancel',
-    confirm: 'Confirm'
+    confirm: 'Confirm',
+    createSuccess: 'Section created successfully',
+    starSuccess: 'Starred Template',
+    unstarSuccess: 'Unstarred Template',
+    unfavoriteSuccess: 'Unfavorite Note',
+    importFolderSuccess: 'Import Folder Success',
+    importFolderFailed: 'Import Folder Failed',
+    importMarkdownSuccess: 'Import Markdown Success',
+    importMarkdownFailed: 'Import Markdown Failed',
+    importSuccess: 'Import Success',
+    importFailed: 'Import Failed',
+    importFolder: 'Import Folder',
+    importMarkdown: 'Import Markdown',
+    importPictures: 'Import Pictures',
+    importPicturesSuccess: 'Import Pictures Success',
+    importPicturesFailed: 'Import Pictures Failed',
+    importPictures: 'Import Pictures',
+    importPicturesSuccess: 'Import Pictures Success',
+    importPicturesFailed: 'Import Pictures Failed'
   }
 } 
