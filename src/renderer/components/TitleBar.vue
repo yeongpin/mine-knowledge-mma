@@ -219,27 +219,30 @@ const formatTime = (timestamp) => {
   })
 }
 
-const openChangelog = () => {
-  window.electronAPI.openExternal('https://github.com/yeongpin/mine-knowledge-mma/blob/main/CHANGELOG.md')
-}
-
 const openGithub = () => {
   window.electronAPI.openExternal('https://github.com/yeongpin/mine-knowledge-mma')
 }
 
 onMounted(async () => {
   try {
-    const response = await fetch('https://raw.githubusercontent.com/yeongpin/mine-knowledge-mma/main/CHANGELOG.md')
+    const response = await fetch('https://raw.githubusercontent.com/yeongpin/mine-knowledge-mma/refs/heads/main/CHANGELOG.md')
     const content = await response.text()
     // 將 Markdown 轉換為 HTML
     changelogContent.value = content
       .split('\n')
       .map(line => {
-        if (line.startsWith('# ')) return `<h1>${line.slice(2)}</h1>`
-        if (line.startsWith('## ')) return `<h2>${line.slice(3)}</h2>`
-        if (line.startsWith('### ')) return `<h3>${line.slice(4)}</h3>`
-        if (line.startsWith('- ')) return `<li>${line.slice(2)}</li>`
-        return `<p>${line}</p>`
+        if (line.startsWith('# ')) return `<h1 class="changelog-title">${line.slice(2)}</h1>`
+        if (line.startsWith('## ')) {
+          const match = line.match(/\[(.*?)\]\s*-\s*(.*)/)
+          if (match) {
+            return `<h2 class="changelog-version">Version ${match[1]} <span class="changelog-date">${match[2]}</span></h2>`
+          }
+          return `<h2 class="changelog-version">${line.slice(3)}</h2>`
+        }
+        if (line.startsWith('### ')) return `<h3 class="changelog-section">${line.slice(4)}</h3>`
+        if (line.startsWith('- ')) return `<li class="changelog-item">${line.slice(2)}</li>`
+        if (line.trim() === '') return '<div class="changelog-spacer"></div>'
+        return `<p class="changelog-text">${line}</p>`
       })
       .join('')
   } catch (error) {
@@ -590,5 +593,60 @@ defineEmits(['create-repo', 'import-folder', 'import-markdown'])
 .changelog-content p {
   margin: 8px 0;
   color: var(--el-text-color-regular);
+}
+
+.changelog-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: var(--el-text-color-primary);
+  border-bottom: 2px solid var(--el-border-color);
+  padding-bottom: 8px;
+}
+
+.changelog-version {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 24px 0 16px;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.changelog-date {
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+  font-weight: normal;
+}
+
+.changelog-section {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  color: var(--el-text-color-regular);
+}
+
+.changelog-item {
+  margin: 8px 0;
+  padding-left: 16px;
+  position: relative;
+  color: var(--el-text-color-regular);
+}
+
+.changelog-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--el-color-primary);
+}
+
+.changelog-text {
+  margin: 8px 0;
+  color: var(--el-text-color-secondary);
+}
+
+.changelog-spacer {
+  height: 8px;
 }
 </style> 

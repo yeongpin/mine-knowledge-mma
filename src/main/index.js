@@ -79,8 +79,9 @@ function createWindow() {
           "default-src 'self' 'unsafe-inline' 'unsafe-eval'",
           "img-src 'self' file: data: blob: filesystem: http://localhost:*",
           "media-src 'self' file: data: blob:",
+          "connect-src 'self' http://localhost:* https://raw.githubusercontent.com",
           "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-          "style-src 'self' 'unsafe-inline'"
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com"
         ].join('; ')
       }
     })
