@@ -1,8 +1,4 @@
-# Changelog
-
-All notable changes to this project will be documented in this file.
-
-## [1.0.0] - 2024-02-18
+## [1.0.0] - 2025-02-18
 
 ### Added
 - Initial release of Mine Knowledge MMA

@@ -37,7 +37,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readTemplate: (templatePath) => ipcRenderer.invoke('template:read', templatePath),
   joinPath: (dir, file) => ipcRenderer.invoke('path:join', dir, file),
   readFolder: (folderPath) => ipcRenderer.invoke('folder:read', folderPath),
-  openExternal: (url) => shell.openExternal(url)
+  openExternal: (url) => ipcRenderer.invoke('open-external-link', url),
+  getChangelog: () => ipcRenderer.invoke('get:changelog'),
 })
 
 console.log('=== Preload script initialized ===') 

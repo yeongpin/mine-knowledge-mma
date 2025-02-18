@@ -175,6 +175,7 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 const { locale } = useI18n()
 const currentLang = ref(localStorage.getItem('language') || 'zh-TW')
 const changelogContent = ref('')
+const electronAPI = ref(null)
 
 const languages = [
   { value: 'zh-TW', label: '繁體中文' },
@@ -220,31 +221,49 @@ const formatTime = (timestamp) => {
 }
 
 const openGithub = () => {
-  window.electronAPI.openExternal('https://github.com/yeongpin/mine-knowledge-mma')
+  window.electronAPI?.openExternal('https://github.com/yeongpin/mine-knowledge-mma')
 }
 
 onMounted(async () => {
+  // 確保 electronAPI 已經準備好
+  electronAPI.value = window.electronAPI
+
   try {
-    const response = await fetch('https://raw.githubusercontent.com/yeongpin/mine-knowledge-mma/refs/heads/main/CHANGELOG.md')
-    const content = await response.text()
+    const content = await electronAPI.value.getChangelog()
+    let isFirstVersion = true
+    let inHeader = true  // 用來跳過標題部分
     // 將 Markdown 轉換為 HTML
     changelogContent.value = content
       .split('\n')
       .map(line => {
-        if (line.startsWith('# ')) return `<h1 class="changelog-title">${line.slice(2)}</h1>`
+        // 跳過標題部分
+        if (inHeader) {
+          if (line.startsWith('## ')) {
+            inHeader = false
+          } else {
+            return ''
+          }
+        }
+
         if (line.startsWith('## ')) {
           const match = line.match(/\[(.*?)\]\s*-\s*(.*)/)
-          if (match) {
-            return `<h2 class="changelog-version">Version ${match[1]} <span class="changelog-date">${match[2]}</span></h2>`
+          const versionHtml = match
+            ? `Version ${match[1]} <span class="changelog-date">${match[2]}</span>`
+            : line.slice(3)
+          
+          if (isFirstVersion) {
+            isFirstVersion = false
+            return `<div class="changelog-item-container"><h2 class="changelog-version">${versionHtml}</h2>`
           }
-          return `<h2 class="changelog-version">${line.slice(3)}</h2>`
+          return `</div><div class="changelog-item-container"><h2 class="changelog-version changelog-version-divider">${versionHtml}</h2>`
         }
         if (line.startsWith('### ')) return `<h3 class="changelog-section">${line.slice(4)}</h3>`
-        if (line.startsWith('- ')) return `<li class="changelog-item">${line.slice(2)}</li>`
-        if (line.trim() === '') return '<div class="changelog-spacer"></div>'
+        if (line.startsWith('- ')) return `<div class="changelog-item">• ${line.slice(2)}</div>`
+        if (line.trim() === '') return ''  // 移除空行的 spacer
         return `<p class="changelog-text">${line}</p>`
       })
-      .join('')
+      .filter(line => line)  // 移除空字符串
+      .join('') + '</div>'
   } catch (error) {
     console.error('Failed to load changelog:', error)
   }
@@ -604,44 +623,61 @@ defineEmits(['create-repo', 'import-folder', 'import-markdown'])
   padding-bottom: 8px;
 }
 
-.changelog-version {
+:deep(.changelog-item-container) {
+  padding: 16px;
+  margin: 0 -16px;
+  transition: background-color 0.2s ease;
+}
+
+:deep(.changelog-item-container:hover) {
+  background-color: var(--el-fill-color-light);
+}
+
+:deep(.changelog-version) {
   font-size: 18px;
   font-weight: bold;
-  margin: 24px 0 16px;
+  margin: 0 0 16px;
   color: var(--el-color-primary);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.changelog-date {
+:deep(.changelog-version-divider) {
+  position: relative;
+}
+
+:deep(.changelog-version-divider::before) {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -16px;
+  right: -16px;
+  height: 1px;
+  background-color: var(--el-border-color-light);
+}
+
+:deep(.changelog-date) {
   font-size: 14px;
   color: var(--el-text-color-secondary);
   font-weight: normal;
 }
 
-.changelog-section {
+:deep(.changelog-section) {
   font-size: 16px;
   font-weight: 600;
   margin: 16px 0 8px;
   color: var(--el-text-color-regular);
 }
 
-.changelog-item {
+:deep(.changelog-item) {
   margin: 8px 0;
   padding-left: 16px;
   position: relative;
   color: var(--el-text-color-regular);
 }
 
-.changelog-item::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: var(--el-color-primary);
-}
-
-.changelog-text {
+:deep(.changelog-text) {
   margin: 8px 0;
   color: var(--el-text-color-secondary);
 }

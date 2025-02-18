@@ -1,10 +1,11 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
 const path = require('path')
 const dotenv = require('dotenv')
 const fs = require('fs').promises
 const os = require('os')
 const express = require('express')
 const http = require('http')
+const https = require('https')
 
 // 加載環境變量
 dotenv.config()
@@ -415,4 +416,26 @@ ipcMain.handle('folder:read', async (event, folderPath) => {
     console.error('Read folder error:', error)
     throw error
   }
+})
+
+// 獲取 changelog
+ipcMain.handle('get:changelog', async () => {
+  return new Promise((resolve, reject) => {
+    const url = 'https://raw.githubusercontent.com/yeongpin/mine-knowledge-mma/main/CHANGELOG.md'
+    https.get(url, (res) => {
+      let data = ''
+      res.on('data', (chunk) => {
+        data += chunk
+      })
+      res.on('end', () => {
+        resolve(data)
+      })
+    }).on('error', (err) => {
+      reject(err)
+    })
+  })
 }) 
+
+ipcMain.handle('open-external-link', async (event, url) => {
+  await shell.openExternal(url)
+})
