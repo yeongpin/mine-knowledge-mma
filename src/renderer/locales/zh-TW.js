@@ -31,12 +31,7 @@ export default {
     addFavorite: '添加收藏',
     removeFavorite: '取消收藏',
     star: '收藏',
-    unstar: '取消收藏',
-    didYouWantToDeleteNote: '你確定要刪除這個筆記嗎？',
-    alreadyMovedToTrash: '已經移到回收站',
-    deleteFailed: '刪除失敗',
-    movedToTrash: '移到回收站',
-    deleteNote: '刪除筆記'
+    unstar: '取消收藏'
   },
   createSection: {
     createNote: '創建筆記',
@@ -92,6 +87,14 @@ export default {
     importFailed: '導入失敗',
     import: '導入',
     files: '文件',
-    pictures: '圖片'
+    pictures: '圖片',
+    didYouWantToDeleteNote: '你確定要刪除這個筆記嗎？',
+    alreadyMovedToTrash: '已經移到回收站',
+    deleteFailed: '刪除失敗',
+    movedToTrash: '移到回收站',
+    deleteNote: '刪除筆記',
+    warning: '警告',
+    cancel: '取消',
+    confirm: '確定' 
   }
 } 

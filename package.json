@@ -1,6 +1,6 @@
 {
   "name": "mine-knowledge-mma",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Markdown knowledge base application",
   "main": "src/main/index.js",
   "author": "yeongpin",

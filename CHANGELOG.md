@@ -1,3 +1,12 @@
+## [1.0.1] - 2025-02-18
+
+### Added
+- Reorganize localization files and bump version to 1.0.1
+- Move delete-related translations to a more appropriate section in English and Traditional Chinese locales
+- Add new localization keys for common dialog actions
+- Update package version to 1.0.1 in package.json and package-lock.json
+
+
 ## [1.0.0] - 2025-02-18
 
 ### Added

@@ -30,12 +30,7 @@ export default {
     addFavorite: 'Add Favorite',
     removeFavorite: 'Remove Favorite',
     star: 'Star',
-    unstar: 'Unstar',
-    didYouWantToDeleteNote: 'Did you want to delete this note?',
-    alreadyMovedToTrash: 'Already Moved to Trash',
-    deleteFailed: 'Delete Failed',
-    movedToTrash: 'Moved to Trash',
-    deleteNote: 'Delete Note'
+    unstar: 'Unstar'
   },
   createSection: {
     createNote: 'Create Note',
@@ -93,6 +88,14 @@ export default {
     importFailed: 'Import Failed',
     import: 'Import',
     files: 'Files',
-    pictures: 'Pictures'
+    pictures: 'Pictures',
+    didYouWantToDeleteNote: 'Did you want to delete this note?',
+    alreadyMovedToTrash: 'Already Moved to Trash',
+    deleteFailed: 'Delete Failed',
+    movedToTrash: 'Moved to Trash',
+    deleteNote: 'Delete Note',
+    warning: 'Warning',
+    cancel: 'Cancel',
+    confirm: 'Confirm'
   }
 } 
