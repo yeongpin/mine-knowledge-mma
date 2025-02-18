@@ -11,7 +11,7 @@
         </div>
         <el-dropdown trigger="click" :teleported="true" popper-class="toolbar-dropdown">
           <div class="button">
-            <el-icon><Timer /></el-icon>
+            <el-icon><Histogram /></el-icon>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
@@ -162,7 +162,8 @@ import {
   WarningFilled,
   CircleCloseFilled,
   InfoFilled,
-  Link
+  Link,
+  Histogram
 } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { useNotificationsStore } from '../stores/notifications'
