@@ -1,6 +1,7 @@
 export default {
   app: {
     title: 'Personal Knowledge Base',
+    version: '1.0.0',
     newNote: 'New Note'
   },
   menu: {

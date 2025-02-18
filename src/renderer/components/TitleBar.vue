@@ -1,11 +1,29 @@
 <template>
   <div class="title-bar">
     <div class="title-bar-left">
-      <span class="title">{{ $t('app.title') }}</span>
+      <span class="title">{{ $t('app.title') }} v{{ $t('app.version') }}</span>
     </div>
     <div class="title-bar-right">
       <!-- 功能按鈕組 -->
       <div class="action-bar">
+        <div class="button" @click="openGithub">
+          <el-icon><svg width="800" height="800" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.976 0A7.977 7.977 0 0 0 0 7.976c0 3.522 2.3 6.507 5.431 7.584.392.049.538-.196.538-.392v-1.37c-2.201.49-2.69-1.076-2.69-1.076-.343-.93-.881-1.175-.881-1.175-.734-.489.048-.489.048-.489.783.049 1.224.832 1.224.832.734 1.223 1.859.88 2.3.685.048-.538.293-.88.489-1.076-1.762-.196-3.621-.881-3.621-3.964 0-.88.293-1.566.832-2.153-.05-.147-.343-.978.098-2.055 0 0 .685-.196 2.201.832.636-.196 1.322-.245 2.007-.245s1.37.098 2.006.245c1.517-1.027 2.202-.832 2.202-.832.44 1.077.146 1.908.097 2.104a3.16 3.16 0 0 1 .832 2.153c0 3.083-1.86 3.719-3.62 3.915.293.244.538.733.538 1.467v2.202c0 .196.146.44.538.392A7.98 7.98 0 0 0 16 7.976C15.951 3.572 12.38 0 7.976 0"/></svg></el-icon>
+        </div>
+        <el-dropdown trigger="click" :teleported="true" popper-class="toolbar-dropdown">
+          <div class="button">
+            <el-icon><Timer /></el-icon>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <div class="changelog-header">
+                <span>Changelog</span>
+              </div>
+              <el-scrollbar max-height="400px">
+                <div class="changelog-content" v-html="changelogContent"></div>
+              </el-scrollbar>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <el-dropdown trigger="click" :teleported="true" popper-class="toolbar-dropdown">
           <div class="button">
             <el-icon><FolderAdd /></el-icon>
@@ -128,7 +146,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { 
   Minus as MinusIcon, 
   FullScreen as FullScreenIcon, 
@@ -143,7 +161,8 @@ import {
   SuccessFilled,
   WarningFilled,
   CircleCloseFilled,
-  InfoFilled
+  InfoFilled,
+  Link
 } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { useNotificationsStore } from '../stores/notifications'
@@ -151,9 +170,11 @@ import { useHistoryStore } from '../stores/history'
 import { storeToRefs } from 'pinia'
 import { formatDistanceToNow } from 'date-fns'
 import { zhTW, enUS } from 'date-fns/locale'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 const { locale } = useI18n()
 const currentLang = ref(localStorage.getItem('language') || 'zh-TW')
+const changelogContent = ref('')
 
 const languages = [
   { value: 'zh-TW', label: '繁體中文' },
@@ -197,6 +218,34 @@ const formatTime = (timestamp) => {
     locale 
   })
 }
+
+const openChangelog = () => {
+  window.electronAPI.openExternal('https://github.com/yeongpin/mine-knowledge-mma/blob/main/CHANGELOG.md')
+}
+
+const openGithub = () => {
+  window.electronAPI.openExternal('https://github.com/yeongpin/mine-knowledge-mma')
+}
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/yeongpin/mine-knowledge-mma/main/CHANGELOG.md')
+    const content = await response.text()
+    // 將 Markdown 轉換為 HTML
+    changelogContent.value = content
+      .split('\n')
+      .map(line => {
+        if (line.startsWith('# ')) return `<h1>${line.slice(2)}</h1>`
+        if (line.startsWith('## ')) return `<h2>${line.slice(3)}</h2>`
+        if (line.startsWith('### ')) return `<h3>${line.slice(4)}</h3>`
+        if (line.startsWith('- ')) return `<li>${line.slice(2)}</li>`
+        return `<p>${line}</p>`
+      })
+      .join('')
+  } catch (error) {
+    console.error('Failed to load changelog:', error)
+  }
+})
 
 defineEmits(['create-repo', 'import-folder', 'import-markdown'])
 </script>
@@ -492,5 +541,54 @@ defineEmits(['create-repo', 'import-folder', 'import-markdown'])
 /* 防止重複的歷史記錄項目 */
 .history-item:not(:last-child) {
   border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+.changelog-header {
+  padding: 8px 16px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--el-border-color-light);
+}
+
+.changelog-content {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.changelog-content h1 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--el-text-color-primary);
+}
+
+.changelog-content h2 {
+  font-size: 16px;
+  margin: 16px 0 8px;
+  color: var(--el-text-color-primary);
+}
+
+.changelog-content h3 {
+  font-size: 14px;
+  margin: 12px 0 8px;
+  color: var(--el-text-color-regular);
+}
+
+.changelog-content li {
+  margin: 4px 0;
+  padding-left: 8px;
+  list-style: none;
+  position: relative;
+}
+
+.changelog-content li::before {
+  content: "•";
+  position: absolute;
+  left: -8px;
+  color: var(--el-text-color-secondary);
+}
+
+.changelog-content p {
+  margin: 8px 0;
+  color: var(--el-text-color-regular);
 }
 </style> 

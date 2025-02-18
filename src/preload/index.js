@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, shell } = require('electron')
 
 console.log('=== Preload script initializing ===')
 
@@ -37,6 +37,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readTemplate: (templatePath) => ipcRenderer.invoke('template:read', templatePath),
   joinPath: (dir, file) => ipcRenderer.invoke('path:join', dir, file),
   readFolder: (folderPath) => ipcRenderer.invoke('folder:read', folderPath),
+  openExternal: (url) => shell.openExternal(url)
 })
 
 console.log('=== Preload script initialized ===') 
