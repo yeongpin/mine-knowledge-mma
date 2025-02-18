@@ -1,0 +1,97 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        shell: bash
+
+      # Clean install dependencies
+      - name: Install Dependencies
+        run: npm ci
+        
+      # Build the application
+      - name: Build Application
+        run: npm run build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      # List dist directory contents
+      - name: List dist directory
+        shell: bash
+        run: |
+          echo "Dist directory contents:"
+          ls -la dist/
+        
+      # Rename and organize artifacts
+      - name: Process Artifacts
+        shell: bash
+        run: |
+          mkdir -p ./artifacts
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            mv "dist/Mine Knowledge MMA Setup"*.exe "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_win_setup.exe" || true
+          elif [ "${{ matrix.os }}" = "macos-latest" ]; then
+            mv "dist/Mine Knowledge MMA"*.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac.dmg" || true
+          else
+            mv "dist/Mine Knowledge MMA"*.AppImage "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_linux.AppImage" || true
+          fi
+          
+          # 显示artifacts目录内容以验证
+          echo "Artifacts directory contents:"
+          ls -la ./artifacts/
+        
+      # Upload build artifacts
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-artifacts
+          path: artifacts/*
+          retention-days: 1
+          
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          
+      - name: List Files
+        run: ls -R
+        working-directory: artifacts
+        
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Mine Knowledge MMA ${{ github.ref_name }}
+          files: artifacts/**/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
