@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -16,6 +20,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -36,7 +42,7 @@ jobs:
       - name: Build Application
         run: npm run build
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       # List dist directory contents
       - name: List dist directory
