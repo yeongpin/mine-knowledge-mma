@@ -13,7 +13,6 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "postinstall": "node scripts/setup-templates.js",
     "release": "node scripts/release.js"
   },
   "build": {
