@@ -38,7 +38,7 @@
           </el-menu-item>
         </el-menu>
 
-        <!-- 常用知識庫列表 -->
+        <!-- Frequently used knowledge base list -->
         <div class="frequently-used">
           <h2>{{ $t('menu.frequentlyUsed') }}</h2>
           <div v-if="favorites.length" class="favorites-list">
@@ -64,7 +64,7 @@
           </div>
         </div>
 
-        <!-- 創建筆記對話框 -->
+        <!-- Create note dialog -->
         <el-dialog
           v-model="showCreateDialog"
           :title="$t('notes.create')"
@@ -112,7 +112,7 @@ const isDark = ref(document.documentElement.classList.contains('dark'))
 const currentMenu = ref('1')
 const showCreateDialog = ref(false)
 
-// 監聽主題變化
+// Listen for theme changes
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     if (mutation.attributeName === 'class') {
@@ -129,7 +129,7 @@ onMounted(() => {
 })
 
 const handleCreateRepo = () => {
-  // TODO: 實現創建知識庫邏輯
+  // TODO: Implement create knowledge base logic
 }
 
 const handleImportFolder = () => {
@@ -140,7 +140,7 @@ const handleImportFolder = () => {
 }
 
 const handleImportMarkdown = () => {
-  // 導航到首頁並觸發導入
+  // Navigate to homepage and trigger import
   router.push({ 
     name: 'home',
     query: { action: 'import-markdown' }
@@ -149,7 +149,7 @@ const handleImportMarkdown = () => {
 
 const removeFavorite = (item) => {
   favoritesStore.removeFavorite(item.path)
-  // 更新 notes store 中的狀態
+  // Update notes store status
   notesStore.updateStarStatus(item.path, false)
   $notify.info(
     '取消收藏',
@@ -158,7 +158,7 @@ const removeFavorite = (item) => {
 }
 
 const handleFavoriteClick = (item) => {
-  // 先保存文件數據到 localStorage
+  // Save file data to localStorage
   localStorage.setItem('currentEditingFile', JSON.stringify({
     id: item.id,
     title: item.name,
@@ -274,13 +274,13 @@ const handleNoteCreated = () => {
   font-weight: 500;
 }
 
-/* 確保兩個菜單的樣式一致 */
+/* Ensure the styles of the two menus are consistent */
 :deep(.el-menu + .el-menu) {
   border-top: none;
   margin-top: -4px;
 }
 
-/* 調整圖標大小和顏色 */
+/* Adjust icon size and color */
 :deep(.el-menu-item .el-icon) {
   font-size: 18px;
   color: var(--text-200);
@@ -322,7 +322,7 @@ const handleNoteCreated = () => {
   color: var(--el-text-color-regular);
 }
 
-/* 調整取消收藏按鈕樣式 */
+/* Adjust the style of the cancel favorite button */
 .favorite-item .el-button {
   padding: 4px;
 }

@@ -122,14 +122,14 @@ const { proxy: { $notify } } = getCurrentInstance()
 const previewTheme = ref('default')
 const serverUrl = ref('')
 
-// 根據當前語言設置編輯器語言
+// Set editor language based on current language
 const editorLanguage = computed(() => {
   return locale.value.startsWith('zh') ? 'zh-TW' : 'en-US'
 })
 
 onMounted(async () => {
   try {
-    // 保存當前視圖狀態
+    // Save current view state
     const currentView = route.query.view
     if (currentView) {
       localStorage.setItem('previousView', currentView)
@@ -147,15 +147,15 @@ onMounted(async () => {
       }
     }
     
-    // 設置鍵盤快捷鍵
+    // Set keyboard shortcuts
     setupKeyboardShortcuts()
 
-    // 獲取服務器 URL
+    // Get server URL
     serverUrl.value = await window.electronAPI.getServerUrl()
   } catch (error) {
     console.error('Error:', error)
     ElMessage.error(t('notifications.loadFileFailed'))
-    // 返回到正確的視圖
+    // Return to the correct view
     const previousView = localStorage.getItem('previousView')
     router.push({
       name: 'home',
@@ -164,7 +164,7 @@ onMounted(async () => {
   }
 })
 
-// 組件卸載時清理監聽器
+// Clean up listener when component unmounts
 onBeforeUnmount(() => {
   if (keyboardListener) {
     document.removeEventListener('keydown', keyboardListener)
@@ -200,7 +200,7 @@ const handleSave = async () => {
       `${t('notifications.editSuccess')} ${currentFile.value.name}`
     )
     
-    // 添加到歷史記錄
+    // Add to history
     historyStore.addHistory({
       title: currentFile.value.name,
       path: currentFile.value.path,
@@ -239,10 +239,10 @@ const goBack = async () => {
     }
   }
   
-  // 從 localStorage 獲取上一個視圖狀態
+  // Get previous view state from localStorage
   const previousView = localStorage.getItem('previousView')
   
-  // 返回到正確的視圖
+  // Return to the correct view
   router.push({
     name: 'home',
     query: previousView ? { view: previousView } : {}
@@ -306,12 +306,12 @@ const handleMark = () => {
 }
 
 const setupKeyboardShortcuts = () => {
-  // 先移除舊的監聽器
+  // Remove old listener
   if (keyboardListener) {
     document.removeEventListener('keydown', keyboardListener)
   }
   
-  // 創建新的監聽器
+  // Create new listener
   keyboardListener = (e) => {
     if (e.ctrlKey && e.key === 's') {
       e.preventDefault()
@@ -319,11 +319,11 @@ const setupKeyboardShortcuts = () => {
     }
   }
   
-  // 添加新的監聽器
+  // Add new listener
   document.addEventListener('keydown', keyboardListener)
 }
 
-// 處理圖片上傳
+// Handle image upload
 const handleImageUpload = async (files, callback) => {
   try {
     const uploadedFiles = await Promise.all(
@@ -340,7 +340,7 @@ const handleImageUpload = async (files, callback) => {
           currentFilePath: currentFile.value?.path
         })
         
-        // 返回圖片 URL
+        // Return image URL
         return {
           url: `${serverUrl.value}${result.relativePath}`,
           alt: result.fileName
@@ -348,7 +348,7 @@ const handleImageUpload = async (files, callback) => {
       })
     )
     
-    // 直接傳遞圖片信息給編輯器
+    // Pass image information directly to the editor
     callback(uploadedFiles)
     
     $notify.success(
@@ -428,7 +428,7 @@ const handleImageUpload = async (files, callback) => {
   margin-bottom: 16px;
 }
 
-/* 自定義編輯器樣式 */
+/* Custom editor styles */
 :deep(.md-editor-toolbar) {
   padding: 6px 12px !important;
   background-color: #f5f7fa !important;
@@ -468,7 +468,7 @@ svg.md-editor-icon {
   height: 26px !important;
 }
 
-/* 調整 emoji 選擇器的樣式 */
+/* Adjust emoji selector styles */
 :deep(.md-editor-toolbar-wrapper) {
   position: relative;
 }

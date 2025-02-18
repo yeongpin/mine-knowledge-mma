@@ -4,7 +4,7 @@
       <span class="title">{{ $t('app.title') }} v{{ $t('app.version') }}</span>
     </div>
     <div class="title-bar-right">
-      <!-- 功能按鈕組 -->
+      <!-- Action button group -->
       <div class="action-bar">
         <div class="button" @click="openGithub">
           <el-icon><svg width="800" height="800" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.976 0A7.977 7.977 0 0 0 0 7.976c0 3.522 2.3 6.507 5.431 7.584.392.049.538-.196.538-.392v-1.37c-2.201.49-2.69-1.076-2.69-1.076-.343-.93-.881-1.175-.881-1.175-.734-.489.048-.489.048-.489.783.049 1.224.832 1.224.832.734 1.223 1.859.88 2.3.685.048-.538.293-.88.489-1.076-1.762-.196-3.621-.881-3.621-3.964 0-.88.293-1.566.832-2.153-.05-.147-.343-.978.098-2.055 0 0 .685-.196 2.201.832.636-.196 1.322-.245 2.007-.245s1.37.098 2.006.245c1.517-1.027 2.202-.832 2.202-.832.44 1.077.146 1.908.097 2.104a3.16 3.16 0 0 1 .832 2.153c0 3.083-1.86 3.719-3.62 3.915.293.244.538.733.538 1.467v2.202c0 .196.146.44.538.392A7.98 7.98 0 0 0 16 7.976C15.951 3.572 12.38 0 7.976 0"/></svg></el-icon>
@@ -226,18 +226,18 @@ const openGithub = () => {
 }
 
 onMounted(async () => {
-  // 確保 electronAPI 已經準備好
+  // Ensure electronAPI is ready
   electronAPI.value = window.electronAPI
 
   try {
     const content = await electronAPI.value.getChangelog()
     let isFirstVersion = true
-    let inHeader = true  // 用來跳過標題部分
-    // 將 Markdown 轉換為 HTML
+    let inHeader = true  // Used to skip the title part
+    // Convert Markdown to HTML
     changelogContent.value = content
       .split('\n')
       .map(line => {
-        // 跳過標題部分
+        // Skip the title part
         if (inHeader) {
           if (line.startsWith('## ')) {
             inHeader = false
@@ -260,10 +260,10 @@ onMounted(async () => {
         }
         if (line.startsWith('### ')) return `<h3 class="changelog-section">${line.slice(4)}</h3>`
         if (line.startsWith('- ')) return `<div class="changelog-item">• ${line.slice(2)}</div>`
-        if (line.trim() === '') return ''  // 移除空行的 spacer
+        if (line.trim() === '') return ''  // Remove empty line spacer
         return `<p class="changelog-text">${line}</p>`
       })
-      .filter(line => line)  // 移除空字符串
+      .filter(line => line)  // Remove empty strings
       .join('') + '</div>'
   } catch (error) {
     console.error('Failed to load changelog:', error)

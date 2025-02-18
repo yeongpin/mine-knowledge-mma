@@ -1,7 +1,7 @@
-# 標題
+# Title
 
-## 簡介
+## Introduction
 
-## 內容
+## Content
 
-## 參考資料
+## References

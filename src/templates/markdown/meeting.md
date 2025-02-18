@@ -1,14 +1,14 @@
-# 會議記錄
+# Meeting Record
 
-## 基本信息
-- 日期：
-- 參與人員：
-- 地點：
+## Basic Information
+- Date:
+- Participants:
+- Location:
 
-## 議程
+## Agenda
 
-## 討論內容
+## Discussion
 
-## 決議事項
+## Decisions
 
-## 後續工作
+## Follow-up

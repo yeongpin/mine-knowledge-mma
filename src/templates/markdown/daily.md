@@ -1,11 +1,11 @@
-# 日誌
+# Log
 
-## 今日完成
-- [ ] 任務1
-- [ ] 任務2
+## Today's Accomplishments
+- [ ] Task 1
+- [ ] Task 2
 
-## 遇到的問題
+## Problems Encountered
 
-## 明日計劃
+## Tomorrow's Plan
 
-## 心得體會
+## Reflection

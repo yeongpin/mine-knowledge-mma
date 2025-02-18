@@ -4,7 +4,7 @@
       <h3>{{ $t('createSection.createNote') }}</h3>
     </div>
     <div class="create-grid">
-      <!-- 空白筆記卡片 -->
+      <!-- Blank note card -->
       <div class="create-card" @click="createBlankNote">
         <div class="card-icon">
           <el-icon><Plus /></el-icon>
@@ -12,7 +12,7 @@
         <div class="card-title">{{ $t('createSection.blankNote') }}</div>
       </div>
       
-      <!-- 模板卡片 -->
+      <!-- Template card -->
       <div 
         v-for="template in displayTemplates" 
         :key="template.name"
@@ -25,7 +25,7 @@
         <div class="card-title">{{ template.name }}</div>
       </div>
       
-      <!-- 更多模板卡片 -->
+      <!-- More templates card -->
       <div 
         v-if="hasMoreTemplates"
         class="create-card more-card"
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <!-- 模板選擇對話框 -->
+    <!-- Template selection dialog -->
     <el-dialog
       v-model="dialogVisible"
       :title="isTemplate ? $t('createSection.createFromTemplate') : $t('createSection.createBlankNote')"
@@ -97,17 +97,17 @@ const form = ref({
   template: ''
 })
 
-// 只顯示前2個模板
+// Only display the first 2 templates
 const displayTemplates = computed(() => {
   return templates.value.slice(0, 2)
 })
 
-// 是否有更多模板
+// Whether there are more templates
 const hasMoreTemplates = computed(() => {
   return templates.value.length > 2
 })
 
-// 加載模板列表
+// Load template list
 const loadTemplates = async () => {
   try {
     const templateFiles = await window.electronAPI.getTemplates()
@@ -122,14 +122,14 @@ onMounted(() => {
   loadTemplates()
 })
 
-// 創建空白筆記
+// Create blank note
 const createBlankNote = () => {
   isTemplate.value = false
   selectedTemplate.value = null
   dialogVisible.value = true
 }
 
-// 從模板創建
+// Create from template
 const createFromTemplate = (template) => {
   isTemplate.value = true
   selectedTemplate.value = template
@@ -137,14 +137,14 @@ const createFromTemplate = (template) => {
   dialogVisible.value = true
 }
 
-// 顯示模板選擇對話框
+// Show template selection dialog
 const showTemplateDialog = () => {
   isTemplate.value = true
   selectedTemplate.value = null
   dialogVisible.value = true
 }
 
-// 選擇保存目錄
+// Select save directory
 const selectFolder = async () => {
   try {
     const result = await window.electronAPI.selectFolder()
@@ -157,7 +157,7 @@ const selectFolder = async () => {
   }
 }
 
-// 處理創建
+// Handle creation
 const handleCreate = async () => {
   if (!form.value.folder || !form.value.name) {
     ElMessage.warning(t('notifications.fillInCompleteInfo'))
@@ -169,20 +169,20 @@ const handleCreate = async () => {
     
     let content = ''
     if (isTemplate.value && form.value.template) {
-      // 從模板讀取內容
+      // Read content from template
       const templateContent = await window.electronAPI.readTemplate(form.value.template)
       content = templateContent
     } else {
-      // 空白筆記的默認內容
+      // Default content for blank note
       content = `# ${form.value.name}\n\n`
     }
     
-    // 創建文件
+    // Create file
     await window.electronAPI.writeFile(filePath, content)
     
     dialogVisible.value = false
     
-    // 創建文件對象
+    // Create file object
     const fileObject = {
       id: Date.now(),
       title: `${form.value.name}.md`,
@@ -193,13 +193,13 @@ const handleCreate = async () => {
       starred: false
     }
     
-    // 保存到 localStorage
+    // Save to localStorage
     localStorage.setItem('currentEditingFile', JSON.stringify(fileObject))
     
-    // 添加到 notes store
+    // Add to notes store
     notesStore.addNote(fileObject)
     
-    // 跳轉到編輯頁面
+    // Redirect to edit page
     router.push({
       name: 'markdown',
       query: {

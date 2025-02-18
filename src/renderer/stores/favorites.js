@@ -7,7 +7,7 @@ export const useFavoritesStore = defineStore('favorites', {
 
   actions: {
     addFavorite(item) {
-      // 檢查是否已經存在
+      // Check if it already exists 
       const exists = this.favorites.some(f => f.path === item.path)
       if (!exists) {
         this.favorites.push({

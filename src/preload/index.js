@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer, shell } = require('electron')
 
 console.log('=== Preload script initializing ===')
 
-// 合併所有 API 到一個對象中
+// Merge all APIs into a single object
 contextBridge.exposeInMainWorld('electronAPI', {
   minimize: () => ipcRenderer.send('window-minimize'),
   maximize: () => ipcRenderer.send('window-maximize'),
@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     console.log('File path received:', filePath)
     
     if (!filePath) {
-      throw new Error('文件路徑不能為空')
+      throw new Error('File path cannot be empty')
     }
     
     try {

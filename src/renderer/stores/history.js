@@ -7,12 +7,12 @@ export const useHistoryStore = defineStore('history', {
 
   actions: {
     addHistory(record) {
-      // 檢查是否已經存在相同的記錄
+      // Check if the same record already exists
       const existingRecord = this.history.find(
         h => h.path === record.path && h.type === record.type
       )
       
-      // 如果存在相同記錄且時間間隔小於 1 分鐘，則不添加
+      // If the same record exists and the time interval is less than 1 minute, do not add it
       if (existingRecord) {
         const lastTime = new Date(existingRecord.timestamp).getTime()
         const currentTime = new Date().getTime()
@@ -27,7 +27,7 @@ export const useHistoryStore = defineStore('history', {
         ...record
       })
       
-      // 只保留最近 100 條記錄
+      // Only keep the last 100 records
       if (this.history.length > 100) {
         this.history.pop()
       }

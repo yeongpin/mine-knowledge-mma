@@ -92,7 +92,7 @@ const emit = defineEmits(['edit', 'delete', 'toggle-star', 'restore'])
 const handleNoteClick = (note) => {
   if (currentView.value === 'trash') return
     
-  // 確保傳遞完整的對象
+  // Ensure the complete object is passed
   const noteData = {
     id: note.id,
     title: note.title,
@@ -117,10 +117,10 @@ const handleDelete = async (item) => {
       }
     )
     
-    // 執行刪除操作
+    // Execute delete operation
     await deleteRepo(item)
     
-    // 發送通知
+    // Send notification
     notificationsStore.addNotification({
       type: 'success',
       title: t('notes.deleteSuccess'),

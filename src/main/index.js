@@ -7,30 +7,30 @@ const express = require('express')
 const http = require('http')
 const https = require('https')
 
-// 加載環境變量
+// Load environment variables
 dotenv.config()
 if (process.env.NODE_ENV === 'development') {
   dotenv.config({ path: '.env.development' })
 }
 
-// 獲取用戶的 Documents 目錄
+// Get user's Documents directory
 const getDocumentsPath = () => {
   return path.join(os.homedir(), 'Documents', 'Mine-Knowledge')
 }
 
-// 獲取應用程序的根目錄
+// Get application root directory
 const getAppPath = () => {
   return process.env.NODE_ENV === 'development' 
     ? path.join(__dirname, '..', '..') 
     : path.join(process.resourcesPath, 'app')
 }
 
-// 創建靜態文件服務器
+// Create static file server
 function createFileServer() {
   const server = express()
   const imagesPath = path.join(os.homedir(), 'Documents', 'Mine-Knowledge', 'uploads', 'images')
   
-  // 允許跨域請求
+  // Allow cross-origin requests
   server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
@@ -38,14 +38,14 @@ function createFileServer() {
     next()
   })
   
-  // 設置靜態文件目錄
+  // Set static file directory
   server.use('/images', (req, res, next) => {
     res.set('Cross-Origin-Resource-Policy', 'cross-origin')
     next()
   })
   server.use('/images', express.static(imagesPath))
   
-  // 啟動服務器
+  // Start server
   const port = 3500
   http.createServer(server).listen(port)
   
@@ -53,7 +53,7 @@ function createFileServer() {
 }
 
 function createWindow() {
-  // 使用 path.resolve 來確保路徑正確
+  // Use path.resolve to ensure the path is correct
   const preloadPath = path.resolve(__dirname, '..', 'preload', 'index.js')
   console.log('Resolved preload path:', preloadPath)
   
@@ -71,7 +71,7 @@ function createWindow() {
     }
   })
 
-  // 設置 CSP 策略
+  // Set CSP policy
   mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
     callback({
       responseHeaders: {
@@ -88,7 +88,7 @@ function createWindow() {
     })
   })
 
-  // 檢查文件是否存在
+  // Check if the file exists
   const fs = require('fs')
   if (!fs.existsSync(preloadPath)) {
     console.error('Preload script not found at:', preloadPath)
@@ -96,12 +96,12 @@ function createWindow() {
     console.log('Preload script found at:', preloadPath)
   }
   
-  // 在開發環境中使用 Vite 開發服務器
+  // Use Vite development server in development environment
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL('http://localhost:3000')
     mainWindow.webContents.openDevTools()
     
-    // 添加這行來檢查 preload 是否加載
+    // Add this line to check if the preload is loaded
     mainWindow.webContents.on('did-finish-load', () => {
       console.log('Window loaded, checking preload...')
       mainWindow.webContents.executeJavaScript(`
@@ -112,11 +112,11 @@ function createWindow() {
       `)
     })
   } else {
-    // 在生產環境中加載打包後的 renderer
+    // Load the packaged renderer in production environment
     mainWindow.loadFile(path.join(__dirname, '../../../app/dist/renderer/index.html'))
   }
 
-  // 窗口控制
+  // Window control
   ipcMain.on('window-minimize', () => {
     mainWindow.minimize()
   })
@@ -135,14 +135,14 @@ function createWindow() {
 
   createStaticFileServer(mainWindow)
 
-  // 啟動文件服務器
+  // Start file server
   const serverUrl = createFileServer()
   
-  // 將服務器 URL 保存到全局變量
+  // Save server URL to global variable
   global.serverUrl = serverUrl
 }
 
-// 修改文件讀取處理器
+// Modify file reading processor
 ipcMain.handle('file:read', async (event, filePath) => {
   console.log('=== Main process file:read start ===')
   try {
@@ -154,19 +154,19 @@ ipcMain.handle('file:read', async (event, filePath) => {
     
     if (!filePath || typeof filePath !== 'string') {
       console.error('Invalid file path:', filePath)
-      throw new Error('文件路徑不能為空或必須是字符串')
+      throw new Error('File path cannot be empty or must be a string')
     }
     
-    // 處理路徑中的反斜線
+    // Process backslashes in the path
     const normalizedPath = path.normalize(filePath.replace(/\\\\/g, '\\'))
     console.log('Normalized path:', normalizedPath)
     
     try {
-      // 檢查文件是否存在
+      // Check if the file exists
       await fs.access(normalizedPath)
       console.log('File exists')
       
-      // 讀取文件
+      // Read file
       const content = await fs.readFile(normalizedPath, 'utf-8')
       const stats = await fs.stat(normalizedPath)
       const name = path.basename(normalizedPath)
@@ -190,12 +190,12 @@ ipcMain.handle('file:read', async (event, filePath) => {
   }
 })
 
-// 更新文件選擇處理，返回更多文件信息
+// Update file selection processor, return more file information
 ipcMain.handle('dialog:selectFiles', async (event, options) => {
   const result = await dialog.showOpenDialog(options)
   if (result.canceled) return []
   
-  // 讀取所有選中文件的內容
+  // Read the content of all selected files
   const files = await Promise.all(
     result.filePaths.map(async (filePath) => {
       try {
@@ -208,7 +208,7 @@ ipcMain.handle('dialog:selectFiles', async (event, options) => {
           lastModified: stats.mtime
         }
       } catch (error) {
-        console.error(`讀取文件失敗: ${filePath}`, error)
+        console.error(`Failed to read file: ${filePath}`, error)
         return null
       }
     })
@@ -217,7 +217,7 @@ ipcMain.handle('dialog:selectFiles', async (event, options) => {
   return files.filter(Boolean)
 })
 
-// 文件夾操作
+// Folder operation
 ipcMain.handle('dialog:selectFolder', async () => {
   const result = await dialog.showOpenDialog({
     properties: ['openDirectory']
@@ -229,7 +229,7 @@ ipcMain.handle('dialog:selectFolder', async () => {
   return null
 })
 
-// 禁用遠程模塊
+// Disable remote module
 app.enableSandbox()
 
 app.whenReady().then(createWindow)
@@ -256,10 +256,10 @@ ipcMain.handle('readFile', async (event, filePath) => {
   }
 })
 
-// 寫入文件
+// Write file
 ipcMain.handle('file:write', async (event, filePath, content) => {
   try {
-    // 確保目錄存在
+    // Ensure the directory exists
     const dirPath = path.dirname(filePath)
     await fs.mkdir(dirPath, { recursive: true })
     
@@ -273,7 +273,7 @@ ipcMain.handle('file:write', async (event, filePath, content) => {
   }
 })
 
-// 文件夾操作
+// Folder operation
 ipcMain.handle('dir:ensure', async (event, dirPath) => {
   try {
     await fs.mkdir(dirPath, { recursive: true })
@@ -288,36 +288,36 @@ ipcMain.handle('path:temp', async () => {
   return path.join(os.tmpdir(), 'markdown-editor-images')
 })
 
-// 添加靜態文件服務
+// Add static file server
 function createStaticFileServer(win) {
-  // 處理本地文件請求
+  // Process local file requests
   win.webContents.session.protocol.registerFileProtocol('local-file', (request, callback) => {
     const filePath = request.url.replace('local-file://', '')
     callback(filePath)
   })
 }
 
-// 處理基礎 URL
+// Process base URL
 ipcMain.handle('path:getBaseUrl', (event, filePath) => {
   if (!filePath) return ''
   return 'file://' + path.dirname(filePath).replace(/\\/g, '/')
 })
 
-// 修改圖片保存邏輯
+// Modify image saving logic
 ipcMain.handle('file:saveImage', async (event, { fileName, content, currentFilePath }) => {
   try {
     const timestamp = Date.now()
-    // 處理文件名中的特殊字符
+    // Process special characters in file name
     const sanitizedFileName = fileName
-      .replace(/[^a-zA-Z0-9-_.]/g, '-') // 將特殊字符替換為連字符
-      .replace(/\s+/g, '-')             // 將空格替換為連字符
-      .replace(/-+/g, '-')              // 將多個連字符合併為一個
-      .toLowerCase()                     // 轉換為小寫
+      .replace(/[^a-zA-Z0-9-_.]/g, '-') // Replace special characters with hyphens
+      .replace(/\s+/g, '-')             // Replace spaces with hyphens
+      .replace(/-+/g, '-')              // Replace multiple hyphens with one
+      .toLowerCase()                     // Convert to lowercase
     
     const uniqueFileName = `${timestamp}-${sanitizedFileName}`
     const mdName = path.basename(currentFilePath, path.extname(currentFilePath))
     
-    // 構建目錄路徑
+    // Build directory path
     const imagesDir = path.join(
       getDocumentsPath(),
       'uploads',
@@ -329,11 +329,11 @@ ipcMain.handle('file:saveImage', async (event, { fileName, content, currentFileP
     await fs.mkdir(imagesDir, { recursive: true })
     const imagePath = path.join(imagesDir, uniqueFileName)
     
-    // 寫入文件
+    // Write file
     const buffer = Buffer.from(content)
     await fs.writeFile(imagePath, buffer)
     
-    // 返回相對路徑
+    // Return relative path
     const relativePath = path.relative(
       path.join(getDocumentsPath(), 'uploads', 'images'),
       imagePath
@@ -342,7 +342,7 @@ ipcMain.handle('file:saveImage', async (event, { fileName, content, currentFileP
     return {
       absolutePath: imagePath,
       relativePath: `/images/${relativePath}`,
-      fileName: sanitizedFileName // 返回處理後的文件名
+      fileName: sanitizedFileName // Return processed file name
     }
   } catch (error) {
     console.error('Save image error:', error)
@@ -350,12 +350,12 @@ ipcMain.handle('file:saveImage', async (event, { fileName, content, currentFileP
   }
 })
 
-// 添加獲取服務器 URL 的 IPC 處理器
+// Add IPC processor to get server URL
 ipcMain.handle('server:getUrl', () => {
   return global.serverUrl
 })
 
-// 獲取模板列表
+// Get template list
 ipcMain.handle('templates:get', async () => {
   try {
     const templatesDir = path.join(getAppPath(), 'src', 'templates', 'markdown')
@@ -373,7 +373,7 @@ ipcMain.handle('templates:get', async () => {
   }
 })
 
-// 讀取模板內容
+// Read template content
 ipcMain.handle('template:read', async (event, templatePath) => {
   try {
     const content = await fs.readFile(templatePath, 'utf-8')
@@ -384,12 +384,12 @@ ipcMain.handle('template:read', async (event, templatePath) => {
   }
 })
 
-// 處理路徑拼接
+// Process path concatenation
 ipcMain.handle('path:join', (event, dir, file) => {
   return path.join(dir, file)
 })
 
-// 讀取文件夾
+// Read folder
 ipcMain.handle('folder:read', async (event, folderPath) => {
   try {
     const entries = await fs.readdir(folderPath, { withFileTypes: true })
@@ -418,7 +418,7 @@ ipcMain.handle('folder:read', async (event, folderPath) => {
   }
 })
 
-// 獲取 changelog
+// Get changelog
 ipcMain.handle('get:changelog', async () => {
   return new Promise((resolve, reject) => {
     const url = 'https://raw.githubusercontent.com/yeongpin/mine-knowledge-mma/main/CHANGELOG.md'

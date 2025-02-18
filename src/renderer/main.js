@@ -27,14 +27,14 @@ const i18n = createI18n({
 // 創建應用實例
 const app = createApp(App)
 
-// 使用插件
+// Use plugins
 app.use(pinia)
 app.use(router)
 app.use(i18n)
 app.use(ElementPlus)
 
-// 註冊全局通知方法
+// Register global notification method
 app.config.globalProperties.$notify = useNotification()
 
-// 掛載應用
+// Mount application
 app.mount('#app') 

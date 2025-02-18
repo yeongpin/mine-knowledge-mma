@@ -46,12 +46,12 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-// 模擬模板數據
+// Mock template data
 const templates = ref([
-  { id: 1, name: '模板 #1' },
-  { id: 2, name: '模板 #2' },
-  { id: 3, name: '模板 #3' }
-])
+  { id: 1, name: 'Template #1' },
+  { id: 2, name: 'Template #2' },
+  { id: 3, name: 'Template #3' }
+])    
 
 const { proxy: { $notify } } = getCurrentInstance()
 
@@ -61,7 +61,7 @@ const notes = computed(() => notesStore.notes)
 const showViewer = ref(false)
 const currentFile = ref(null)
 
-// 導入 Markdown 文件
+// Import Markdown file
 const importMarkdown = async () => {
   try {
     const files = await window.electronAPI.selectFiles({
@@ -72,16 +72,16 @@ const importMarkdown = async () => {
     })
     
     if (files && files.length > 0) {
-      // 將文件添加到筆記列表
+      // Add files to note list
       files.forEach(file => {
-        // 檢查是否已存在
+        // Check if it already exists
         const exists = notes.value.some(note => note.path === file.path)
         if (!exists) {
           notesStore.addNote({
             id: Date.now() + Math.random(),
             title: file.name,
             path: file.path,
-            content: file.content || '', // 確保 content 存在
+            content: file.content || '', // Ensure content exists
             lastModified: file.lastModified,
             starred: false
           })
@@ -93,25 +93,25 @@ const importMarkdown = async () => {
         `${t('notifications.importSuccess')} ${files.length} ${t('notifications.files')}`
       )
       
-      // 添加歷史記錄
+      // Add history
       addHistory({
         type: 'import',
         title: `${t('notifications.import')} ${files.length} ${t('notifications.files')}`
       })
     }
   } catch (error) {
-    console.error('導入 Markdown 文件失敗:', error)
+    console.error('Import Markdown file failed:', error)
     $notify.error(
       t('notifications.importFailed'),
       t('notifications.importFailed')
     )
-    // 重置路由查詢參數
+    // Reset route query parameters
     router.replace({ 
       name: route.name,
       query: {} 
     })
   } finally {
-    // 無論成功或失敗，都重置路由查詢參數
+    // Reset route query parameters
     router.replace({ 
       name: route.name,
       query: {} 
@@ -119,13 +119,13 @@ const importMarkdown = async () => {
   }
 }
 
-// 導入文件夾
+// Import folder
 const importFolder = async () => {
   try {
     const result = await window.electronAPI.selectFolder()
     
-    if (result) {  // result 是文件夾路徑
-      // 讀取文件夾中的所有 Markdown 文件
+    if (result) {  // result is folder path
+      // Read all Markdown files in the folder
       const files = await window.electronAPI.readFolder(result)
       
       if (!files || files.length === 0) {
@@ -136,9 +136,9 @@ const importFolder = async () => {
         return
       }
       
-      // 將文件添加到筆記列表
+      // Add files to note list
       files.forEach(file => {
-        // 檢查是否已存在
+        // Check if it already exists
         const exists = notes.value.some(note => note.path === file.path)
         if (!exists) {
           notesStore.addNote({
@@ -157,14 +157,14 @@ const importFolder = async () => {
         `${t('notifications.importSuccess')} ${files.length} ${t('notifications.files')}`
       )
       
-      // 添加歷史記錄
+      // Add history
       historyStore.addHistory({
         type: 'import-folder',
         title: `${t('notifications.importFolder')} ${files.length} ${t('notifications.files')}`
       })
     }
   } catch (error) {
-    console.error('導入文件夾失敗:', error)
+    console.error('Import folder failed:', error)
     $notify.error(
       t('notifications.importFailed'),
       error.message || t('notifications.importFailed')
@@ -177,7 +177,7 @@ const importFolder = async () => {
   }
 }
 
-// 監聽路由變化
+// Listen for route changes
 watch(
   () => route.query,
   async (query) => {
@@ -190,13 +190,13 @@ watch(
   { immediate: true }
 )
 
-// 其他方法
+// Other methods
 const createNewNote = () => {
-  // TODO: 實現創建空白筆記的邏輯
+  // TODO: Implement logic to create a blank note
 }
 
 const createFromTemplate = (template) => {
-  // TODO: 實現從模板創建筆記的邏輯
+  // TODO: Implement logic to create a note from a template
 }
 
 const editNote = async (note) => {
@@ -205,7 +205,7 @@ const editNote = async (note) => {
     console.log('Note:', note)
     
     if (!note?.path) {
-      throw new Error('文件路徑不存在')
+      throw new Error('File path does not exist')
     }
     
     const filePath = String(note.path).trim()
@@ -234,7 +234,7 @@ const editNote = async (note) => {
       }
       
       localStorage.setItem('currentEditingFile', JSON.stringify(fileObject))
-      // 保存當前視圖狀態
+      // Save current view state
       localStorage.setItem('previousView', route.query.view || '')
       
       console.log('=== Edit note end ===')
@@ -244,7 +244,7 @@ const editNote = async (note) => {
         query: { 
           id: note.id,
           isFolder: false,
-          view: route.query.view  // 傳遞當前視圖狀態
+          view: route.query.view  // Pass current view state
         }
       })
     } catch (error) {
@@ -253,47 +253,47 @@ const editNote = async (note) => {
     }
   } catch (error) {
     console.error('Edit note error:', error)
-    ElMessage.error(error.message || '讀取文件失敗')
+    ElMessage.error(error.message || 'Failed to read file')
   }
 }
 
 const deleteNote = async (note) => {
   try {
     await ElMessageBox.confirm(
-      '確定要刪除此筆記嗎？此操作可以從回收站恢復',
-      '警告',
+      t('notifications.didYouWantToDeleteNote'),
+      t('notifications.warning'),
       {
-        confirmButtonText: '確定',
-        cancelButtonText: '取消',
+        confirmButtonText: t('notifications.confirm'),
+        cancelButtonText: t('notifications.cancel'),
         type: 'warning'
       }
     )
     
-    // 移到回收站
+    // Move to trash
     trashStore.addToTrash(note)
     notesStore.removeNote(note.path)
     
-    // 如果是收藏的筆記，同時從收藏中移除
+    // If it's a starred note, remove it from favorites
     if (note.starred) {
       favoritesStore.removeFavorite(note.path)
     }
     
     $notify.success(
-      '移到回收站',
-      `已移到回收站: ${note.title}`
+      t('notifications.movedToTrash'),
+      `${t('notifications.alreadyMovedToTrash')}: ${note.title}`
     )
   } catch (error) {
     if (error !== 'cancel') {
       console.error('Delete error:', error)
       $notify.error(
-        '刪除失敗',
-        error.message || '刪除筆記時發生錯誤'
+        t('notifications.deleteFailed'),
+        error.message || t('notifications.deleteFailed')
       )
     }
   }
 }
 
-// 初始化 store
+// Initialize stores
 const favoritesStore = useFavoritesStore()
 const historyStore = useHistoryStore()
 const notificationsStore = useNotificationsStore()
@@ -334,13 +334,13 @@ const toggleStar = (note) => {
   }
 }
 
-// 搜索功能
+// Search function
 const searchQuery = ref('')
 const filteredNotes = computed(() => {
   const view = route.query.view
   let filteredList = []
 
-  // 先根據視圖過濾
+  // Filter first based on view
   switch (view) {
     case 'favorites':
       filteredList = notes.value.filter(note => note.starred)
@@ -352,7 +352,7 @@ const filteredNotes = computed(() => {
       filteredList = notes.value
   }
 
-  // 再根據搜索關鍵字過濾
+  // Filter based on search query
   if (!searchQuery.value) {
     return filteredList
   }
@@ -368,25 +368,25 @@ const handleSearch = (query) => {
   searchQuery.value = query
 }
 
-// 添加歷史記錄
+// Add history
 const addHistory = (record) => {
-  // TODO: 實現歷史記錄
+  // TODO: Implement history
   console.log('New history record:', record)
 }
 
-// 處理筆記刪除
+// Handle note deletion
 const handleDelete = async (note) => {
   if (route.query.view === 'trash') {
-    // 從回收站永久刪除
+    // Delete from trash permanently
     trashStore.deleteFromTrash(note.id)
   } else {
-    // 移到回收站
+    // Move to trash
     trashStore.addToTrash(note)
     notesStore.deleteNote(note.id)
   }
 }
 
-// 處理回收站中的筆記恢復
+// Handle note restoration in trash
 const handleRestore = async (note) => {
   const restoredNote = trashStore.restoreFromTrash(note.id)
   if (restoredNote) {
@@ -401,7 +401,7 @@ onMounted(() => {
     testAPI: !!window.testAPI
   })
   
-  // 測試 API
+  // Test API
   if (window.testAPI) {
     window.testAPI.test()
   }

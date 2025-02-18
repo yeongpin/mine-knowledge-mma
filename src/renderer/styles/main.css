@@ -11,7 +11,7 @@ body {
 }
 
 :root {
-  /* 自定義顏色變量 - Thoughts 風格 */
+  /* Custom color variables - Thoughts style */
   --primary-100: #f0f2ff;
   --primary-200: #e5e7ff;
   --primary-300: #6b7dff;
@@ -23,7 +23,7 @@ body {
   --bg-200: #f8f9fa;
   --bg-300: #f1f3f4;
 
-  /* Element Plus 變量映射 */
+  /* Element Plus variable mapping */
   --el-color-primary: var(--accent-100);
   --el-bg-color: var(--bg-100);
   --el-bg-color-overlay: var(--bg-100);
@@ -35,19 +35,19 @@ body {
   --el-fill-color-light: var(--bg-200);
 }
 
-/* 平滑過渡 */
+/* Smooth transition */
 html {
   transition: all 0.3s ease;
 }
 
-/* 全局下拉菜單樣式 */
+/* Global dropdown menu style */
 .el-popper.is-dark {
   background-color: var(--el-bg-color) !important;
   border-color: var(--el-border-color-light) !important;
   color: var(--el-text-color-regular) !important;
 }
 
-/* 選擇器下拉選項樣式 */
+/* Selector dropdown option style */
 .el-select-dropdown {
   background-color: var(--el-bg-color) !important;
   border-color: var(--el-border-color-light) !important;
@@ -62,7 +62,7 @@ html {
   background-color: var(--el-fill-color-light) !important;
 }
 
-/* 全局滾動條樣式 */
+/* Global scrollbar style */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

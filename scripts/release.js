@@ -1,7 +1,7 @@
 const { execSync } = require('child_process');
 const { version } = require('../package.json');
 
-// 确保版本号格式正确
+// Ensure version format is correct
 if (!/^\d+\.\d+\.\d+(-\w+)?$/.test(version)) {
   console.error('Invalid version format in package.json');
   process.exit(1);
@@ -10,23 +10,23 @@ if (!/^\d+\.\d+\.\d+(-\w+)?$/.test(version)) {
 const tagName = `v${version}`;
 
 try {
-  // 删除已存在的本地标签
+  // Delete existing local tag
   execSync(`git tag -d ${tagName}`, { stdio: 'ignore' });
 } catch (error) {
-  // 忽略标签不存在的错误
+  // Ignore tag not found error
 }
 
 try {
-  // 删除远程标签
+  // Delete remote tag
   execSync(`git push origin :refs/tags/${tagName}`, { stdio: 'ignore' });
 } catch (error) {
-  // 忽略远程标签不存在的错误
+  // Ignore remote tag not found error
 }
 
-// 创建新标签
+// Create new tag
 execSync(`git tag -a ${tagName} -m "Release ${tagName}"`, { stdio: 'inherit' });
 
-// 推送标签到远程
+// Push tag to remote
 execSync(`git push origin ${tagName}`, { stdio: 'inherit' });
 
 console.log(`Successfully created and pushed tag: ${tagName}`); 

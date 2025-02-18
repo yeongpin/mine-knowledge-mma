@@ -30,7 +30,12 @@ export default {
     addFavorite: 'Add Favorite',
     removeFavorite: 'Remove Favorite',
     star: 'Star',
-    unstar: 'Unstar'
+    unstar: 'Unstar',
+    didYouWantToDeleteNote: 'Did you want to delete this note?',
+    alreadyMovedToTrash: 'Already Moved to Trash',
+    deleteFailed: 'Delete Failed',
+    movedToTrash: 'Moved to Trash',
+    deleteNote: 'Delete Note'
   },
   createSection: {
     createNote: 'Create Note',
