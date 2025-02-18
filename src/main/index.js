@@ -78,7 +78,7 @@ function createWindow() {
         ...details.responseHeaders,
         'Content-Security-Policy': [
           "default-src 'self' 'unsafe-inline' 'unsafe-eval'",
-          "img-src 'self' file: data: blob: filesystem: http://localhost:*",
+          "img-src 'self' file: data: blob: filesystem: http://localhost:* https://raw.githubusercontent.com",
           "media-src 'self' file: data: blob:",
           "connect-src 'self' http://localhost:* https://raw.githubusercontent.com",
           "script-src 'self' 'unsafe-inline' 'unsafe-eval'",

@@ -1,3 +1,13 @@
+
+## [1.0.2] - 2025-02-18
+
+- Add logo and update app branding
+- Add logo image to TitleBar from GitHub repository
+- Update Content Security Policy to allow logo image source
+- Rename app title to "Mine Knowledge MMA" in locales
+- Bump version to 1.0.2 in English and Traditional Chinese locales
+
+
 ## [1.0.1] - 2025-02-18
 
 ### Added

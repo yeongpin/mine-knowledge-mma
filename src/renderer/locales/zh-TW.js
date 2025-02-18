@@ -1,7 +1,7 @@
 export default {
   app: {
-    title: '個人知識庫',
-    version: '1.0.0',
+    title: '我的 MMA 知識庫',
+    version: '1.0.2',
     newNote: '新建筆記'
   },
   menu: {

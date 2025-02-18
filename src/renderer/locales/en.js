@@ -1,7 +1,7 @@
 export default {
   app: {
-    title: 'Personal Knowledge Base',
-    version: '1.0.0',
+    title: 'Mine Knowledge MMA',
+    version: '1.0.2',
     newNote: 'New Note'
   },
   menu: {

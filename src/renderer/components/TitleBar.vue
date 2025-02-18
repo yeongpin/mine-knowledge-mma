@@ -1,6 +1,7 @@
 <template>
   <div class="title-bar">
     <div class="title-bar-left">
+      <img src="https://raw.githubusercontent.com/yeongpin/mine-knowledge-mma/refs/heads/main/src/assets/icon.png" alt="logo" class="logo" style="width: 24px; height: 24px;">
       <span class="title">{{ $t('app.title') }} v{{ $t('app.version') }}</span>
     </div>
     <div class="title-bar-right">
@@ -274,6 +275,12 @@ defineEmits(['create-repo', 'import-folder', 'import-markdown'])
 </script>
 
 <style scoped>
+.logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
 .title-bar {
   -webkit-app-region: drag;
   height: 32px;
