@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--el-bg-color);
+    color: var(--el-text-color-primary);
+}
+
+:root {
+  /* 自定義顏色變量 - Thoughts 風格 */
+  --primary-100: #f0f2ff;
+  --primary-200: #e5e7ff;
+  --primary-300: #6b7dff;
+  --accent-100: #7b61ff;
+  --accent-200: #5025ff;
+  --text-100: #333333;
+  --text-200: #5f6368;
+  --bg-100: #ffffff;
+  --bg-200: #f8f9fa;
+  --bg-300: #f1f3f4;
+
+  /* Element Plus 變量映射 */
+  --el-color-primary: var(--accent-100);
+  --el-bg-color: var(--bg-100);
+  --el-bg-color-overlay: var(--bg-100);
+  --el-text-color-primary: var(--text-100);
+  --el-text-color-regular: var(--text-200);
+  --el-text-color-secondary: var(--text-200);
+  --el-border-color: var(--bg-300);
+  --el-border-color-light: var(--bg-300);
+  --el-fill-color-light: var(--bg-200);
+}
+
+/* 平滑過渡 */
+html {
+  transition: all 0.3s ease;
+}
+
+/* 全局下拉菜單樣式 */
+.el-popper.is-dark {
+  background-color: var(--el-bg-color) !important;
+  border-color: var(--el-border-color-light) !important;
+  color: var(--el-text-color-regular) !important;
+}
+
+/* 選擇器下拉選項樣式 */
+.el-select-dropdown {
+  background-color: var(--el-bg-color) !important;
+  border-color: var(--el-border-color-light) !important;
+}
+
+.el-select-dropdown__item {
+  color: var(--el-text-color-regular) !important;
+}
+
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  background-color: var(--el-fill-color-light) !important;
+}
+
+/* 全局滾動條樣式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+} 

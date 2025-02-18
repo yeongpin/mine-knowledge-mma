@@ -1,0 +1,92 @@
+export default {
+  app: {
+    title: 'Personal Knowledge Base',
+    newNote: 'New Note'
+  },
+  menu: {
+    allNotes: 'All Notes',
+    favorites: 'Favorites',
+    trash: 'Trash',
+    frequentlyUsed: 'Frequently Used',
+    noFavorites: 'No Favorites',
+    noTrash: 'No Trash',
+    noFrequentlyUsed: 'No Frequently Used'
+  },
+  notes: {
+    empty: 'No notes yet',
+    createBlank: 'Create Blank Note',
+    templates: 'Create from Template',
+    edit: 'Edit',
+    delete: 'Delete',
+    create: 'Create',
+    moveToTrash: 'Move to Trash',
+    restore: 'Restore',
+    deletePermanently: 'Delete Permanently',
+    confirmDelete: 'Confirm Delete',
+    cancel: 'Cancel',
+    confirmRestore: 'Confirm Restore',
+    searchPlaceholder: 'Search Notes...',
+    addFavorite: 'Add Favorite',
+    removeFavorite: 'Remove Favorite',
+    star: 'Star',
+    unstar: 'Unstar'
+  },
+  createSection: {
+    createNote: 'Create Note',
+    createFromTemplate: 'Create from Template',
+    createBlankNote: 'Create Blank Note',
+    selectFolder: 'Select Folder',
+    enterFileName: 'Enter File Name',
+    selectTemplate: 'Select Template',
+    moreTemplates: 'More Templates',
+    blankNote: 'Blank Note',
+    create: 'Create',
+    cancel: 'Cancel',
+    createSuccess: 'Section created successfully'
+  },
+  toolbar: {
+    addRepo: 'Add Repository',
+    createRepo: 'Create Repository',
+    importRepo: 'Import Repository',
+    history: 'History',
+    notifications: 'Notifications',
+    importFolder: 'Import Folder',
+    importMarkdown: 'Import Markdown Files',
+    export: 'Export',
+    clearAll: 'Clear All',
+    noHistory: 'No History',
+    noNotifications: 'No Notifications',
+    edited: 'Edited',
+    warning: 'Warning',
+    confirm: 'Confirm',
+    cancel: 'Cancel'
+  },
+  markdown: {
+    preview: 'Preview Markdown',
+    edit: 'Edit',
+    close: 'Close',
+    importSuccess: 'File imported successfully',
+    back: 'Back',
+    export: 'Export',
+    selectFile: 'Select a file to view',
+    deleteConfirm: 'Are you sure you want to delete this file?',
+    backConfirm: 'There are unsaved changes. Are you sure you want to leave?',
+    warning: 'Warning',
+    confirm: 'Confirm',
+    cancel: 'Cancel'
+  },
+  notifications: {
+    saveSuccess: 'Save Success',
+    editSuccess: 'Edit Success',
+    saveFailed: 'Save Failed',
+    loadFileFailed: 'Load File Failed',
+    uploadSuccess: 'Upload Success',
+    uploadFailed: 'Upload Failed',
+    uploadPictures: 'Upload Pictures',
+    importSuccess: 'Import Success',
+    importFailed: 'Import Failed',
+    import: 'Import',
+    files: 'Files',
+    pictures: 'Pictures'
+  }
+} 

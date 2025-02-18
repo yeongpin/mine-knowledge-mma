@@ -1,0 +1,100 @@
+{
+  "name": "mine-knowledge-mma",
+  "version": "1.0.0",
+  "description": "A Markdown knowledge base application",
+  "main": "src/main/index.js",
+  "author": "yeongpin",
+  "scripts": {
+    "dev": "electron .",
+    "electron:serve": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on tcp:3000 && electron .\" --kill-others",
+    "electron:dev": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on tcp:3000 && electron .\" --kill-others",
+    "build": "vite build && electron-builder",
+    "preview": "vite preview",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "postinstall": "node scripts/setup-templates.js"
+  },
+  "build": {
+    "appId": "com.mineknowledge.app",
+    "productName": "Mine Knowledge MMA",
+    "directories": {
+      "output": "dist"
+    },
+    "asar": true,
+    "files": [
+      "src/main/**/*",
+      "src/preload/**/*",
+      "dist/renderer/**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/renderer",
+        "to": "app/dist/renderer"
+      },
+      {
+        "from": "src/templates/markdown",
+        "to": "app/src/templates/markdown"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "src/assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "src/assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "src/assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@vavt/cm-extension": "^1.8.0",
+    "@vavt/v3-extension": "^3.0.0",
+    "@vueuse/core": "^10.0.0",
+    "cropperjs": "^1.6.2",
+    "dotenv": "^16.4.7",
+    "electron-store": "^8.1.0",
+    "element-plus": "^2.9.4",
+    "express": "^4.21.2",
+    "github-markdown-css": "^5.8.1",
+    "highlight.js": "^11.11.1",
+    "katex": "^0.16.21",
+    "markdown-it": "^14.1.0",
+    "md-editor-v3": "^5.2.3",
+    "mermaid": "^11.4.1",
+    "pinia": "^2.3.1",
+    "prettier": "^3.5.1",
+    "screenfull": "^6.0.2",
+    "vue": "^3.3.0",
+    "vue-i18n": "^11.0.0-rc.1",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.4.0",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^25.0.0",
+    "electron-builder": "^24.3.0",
+    "vite": "^4.5.0",
+    "wait-on": "^7.2.0"
+  }
+}
