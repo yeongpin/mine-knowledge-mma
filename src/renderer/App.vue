@@ -98,13 +98,14 @@ import { useNotificationsStore } from './stores/notifications'
 import { useNotesStore } from './stores/notes'
 import { useTrashStore } from './stores/trash'
 import CreateSection from './components/CreateSection.vue'
-
+import { useI18n } from 'vue-i18n'
 const router = useRouter()
 const favoritesStore = useFavoritesStore()
 const notificationsStore = useNotificationsStore()
 const notesStore = useNotesStore()
 const trashStore = useTrashStore()
 const { favorites } = storeToRefs(favoritesStore)
+const { t } = useI18n()
 
 const { proxy: { $notify } } = getCurrentInstance()
 
@@ -152,8 +153,8 @@ const removeFavorite = (item) => {
   // Update notes store status
   notesStore.updateStarStatus(item.path, false)
   $notify.info(
-    $t('notifications.unfavoriteSuccess'),
-    `${$t('notifications.unfavoriteSuccess')} ${item.name}`
+    t('notifications.unfavoriteSuccess'),
+    `${t('notifications.unfavoriteSuccess')} ${item.name}`
   )
 }
 
