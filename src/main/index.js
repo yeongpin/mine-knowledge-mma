@@ -34,7 +34,7 @@ function createFileServer() {
   server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    res.header('Access-Control-Allow-Headers', 'Content-Type')
     next()
   })
   
@@ -47,7 +47,11 @@ function createFileServer() {
   
   // Start server
   const port = 3500
-  http.createServer(server).listen(port)
+  const httpServer = http.createServer(server)
+  httpServer.listen(port)
+  
+  // Store server reference in global scope
+  global.fileServer = httpServer
   
   return `http://localhost:${port}`
 }
@@ -130,6 +134,10 @@ function createWindow() {
   })
 
   ipcMain.on('window-close', () => {
+    if (global.fileServer) {
+      global.fileServer.close()
+      global.fileServer = null
+    }
     mainWindow.close()
   })
 
@@ -235,6 +243,10 @@ app.enableSandbox()
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
+  if (global.fileServer) {
+    global.fileServer.close()
+    global.fileServer = null
+  }
   if (process.platform !== 'darwin') {
     app.quit()
   }
