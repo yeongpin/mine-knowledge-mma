@@ -51,11 +51,21 @@
       "icon": "src/assets/icon.ico"
     },
     "mac": {
-      "target": "dmg",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
       "icon": "src/assets/icon.icns"
     },
     "linux": {
-      "target": "AppImage",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64", "arm64"]
+        }
+      ],
       "icon": "src/assets/icon.png"
     },
     "nsis": {

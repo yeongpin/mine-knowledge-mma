@@ -16,6 +16,12 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
+        arch: [x64, arm64]
+        exclude:
+          - os: windows-latest
+            arch: arm64
+          - os: ubuntu-latest
+            arch: arm64
         node-version: [18.x]
 
     steps:
@@ -27,6 +33,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          arch: ${{ matrix.arch }}
           cache: 'npm'
           
       - name: Get version from tag
@@ -43,6 +50,7 @@ jobs:
         run: npm run build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARCH: ${{ matrix.arch }}
           
       # List dist directory contents
       - name: List dist directory
@@ -72,8 +80,11 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-artifacts
-          path: artifacts/*
+          name: ${{ runner.os }}-${{ matrix.arch }}
+          path: |
+            dist/*.dmg
+            dist/*.exe
+            dist/*.AppImage
           retention-days: 1
           
   release:
