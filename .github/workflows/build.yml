@@ -70,7 +70,7 @@ jobs:
             if [ "${{ matrix.arch }}" = "arm64" ]; then
               cp "dist/Mine Knowledge MMA"*-arm64.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac_arm64.dmg" || true
             else
-              cp "dist/Mine Knowledge MMA"*.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac_x64.dmg" || true
+              cp "dist/Mine Knowledge MMA"*.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac.dmg" || true
               # 排除 arm64 版本
               rm -f "./artifacts/"*-arm64.dmg || true
             fi
