@@ -1,3 +1,5 @@
+## [1.0.3.1] - 2025-02-19
+- Fix the issue that the template selection dialog is not displayed
 
 ## [1.0.3] - 2025-02-19
 - Enhance template management and internationalization
