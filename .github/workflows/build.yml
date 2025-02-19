@@ -67,7 +67,13 @@ jobs:
           if [ "${{ matrix.os }}" = "windows-latest" ]; then
             mv "dist/Mine Knowledge MMA Setup"*.exe "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_win_setup.exe" || true
           elif [ "${{ matrix.os }}" = "macos-latest" ]; then
-            mv "dist/Mine Knowledge MMA"*.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac.dmg" || true
+            if [ "${{ matrix.arch }}" = "arm64" ]; then
+              cp "dist/Mine Knowledge MMA"*-arm64.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac_arm64.dmg" || true
+            else
+              cp "dist/Mine Knowledge MMA"*.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac_x64.dmg" || true
+              # 排除 arm64 版本
+              rm -f "./artifacts/"*-arm64.dmg || true
+            fi
           else
             mv "dist/Mine Knowledge MMA"*.AppImage "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_linux.AppImage" || true
           fi
