@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          arch: ${{ matrix.arch }}
+          architecture: ${{ matrix.arch }}
           cache: 'npm'
           
       - name: Get version from tag
@@ -81,10 +81,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-${{ matrix.arch }}
-          path: |
-            dist/*.dmg
-            dist/*.exe
-            dist/*.AppImage
+          path: artifacts/*
           retention-days: 1
           
   release:

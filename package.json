@@ -63,7 +63,7 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": ["x64", "arm64"]
+          "arch": ["x64"]
         }
       ],
       "icon": "src/assets/icon.png"
