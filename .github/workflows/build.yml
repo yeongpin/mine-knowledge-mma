@@ -68,11 +68,9 @@ jobs:
             mv "dist/Mine Knowledge MMA Setup"*.exe "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_win_setup.exe" || true
           elif [ "${{ matrix.os }}" = "macos-latest" ]; then
             if [ "${{ matrix.arch }}" = "arm64" ]; then
-              cp "dist/Mine Knowledge MMA"*-arm64.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac_arm64.dmg" || true
+              find dist -name "*-arm64.dmg" -exec cp {} "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac_arm64.dmg" \;
             else
-              cp "dist/Mine Knowledge MMA-"*.dmg "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac.dmg" || true
-              # 排除包含 arm64 的文件
-              find ./artifacts -name "*arm64*" -delete || true
+              find dist -name "*.dmg" -not -name "*-arm64.dmg" -exec cp {} "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_mac.dmg" \;
             fi
           else
             mv "dist/Mine Knowledge MMA"*.AppImage "./artifacts/mine_knowledge_mma_${{ env.VERSION }}_linux.AppImage" || true
