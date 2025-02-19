@@ -62,11 +62,7 @@
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
-      "notarization": {
-        "appleId": process.env.APPLE_ID,
-        "appleIdPassword": process.env.APPLE_APP_SPECIFIC_PASSWORD,
-        "teamId": process.env.APPLE_TEAM_ID
-      }
+      "notarize": true
     },
     "linux": {
       "target": [
