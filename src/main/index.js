@@ -120,7 +120,15 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, '../../../app/dist/renderer/index.html'))
   }
 
-  // Window control
+  let isQuitting = false
+
+  mainWindow.on('close', (e) => {
+    if (!isQuitting && global.fileServer) {
+      global.fileServer.close()
+      global.fileServer = null
+    }
+  })
+
   ipcMain.on('window-minimize', () => {
     mainWindow.minimize()
   })
@@ -134,10 +142,7 @@ function createWindow() {
   })
 
   ipcMain.on('window-close', () => {
-    if (global.fileServer) {
-      global.fileServer.close()
-      global.fileServer = null
-    }
+    isQuitting = true
     mainWindow.close()
   })
 
