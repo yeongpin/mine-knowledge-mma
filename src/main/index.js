@@ -260,9 +260,7 @@ ipcMain.handle('dialog:selectFolder', async () => {
 // Disable remote module
 app.enableSandbox()
 
-app.whenReady().then(() => {
-  createWindow()
-})
+app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
   if (global.fileServer) {
