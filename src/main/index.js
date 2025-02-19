@@ -34,7 +34,7 @@ function createFileServer() {
   server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-    res.header('Access-Control-Allow-Headers', 'Content-Type')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     next()
   })
   
@@ -57,7 +57,7 @@ function createFileServer() {
 }
 
 let mainWindow = null
-let windowControls = false
+let isQuitting = false
 
 function createWindow() {
   // Use path.resolve to ensure the path is correct
@@ -123,8 +123,6 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, '../../../app/dist/renderer/index.html'))
   }
 
-  let isQuitting = false
-
   mainWindow.on('close', (e) => {
     if (!isQuitting && global.fileServer) {
       global.fileServer.close()
@@ -137,25 +135,30 @@ function createWindow() {
   })
 
   ipcMain.on('window-minimize', () => {
-    if (mainWindow) mainWindow.minimize()
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.minimize()
+    }
   })
 
   ipcMain.on('window-maximize', () => {
-    if (mainWindow.isMaximized()) {
-      mainWindow.unmaximize()
-    } else {
-      mainWindow.maximize()
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      if (mainWindow.isMaximized()) {
+        mainWindow.unmaximize()
+      } else {
+        mainWindow.maximize()
+      }
     }
   })
 
   ipcMain.on('window-close', () => {
-    if (!mainWindow) return
-    isQuitting = true
-    // Remove all IPC listeners
-    ipcMain.removeAllListeners('window-minimize')
-    ipcMain.removeAllListeners('window-maximize')
-    ipcMain.removeAllListeners('window-close')
-    mainWindow.close()
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      isQuitting = true
+      // Remove all IPC listeners
+      ipcMain.removeAllListeners('window-minimize')
+      ipcMain.removeAllListeners('window-maximize')
+      ipcMain.removeAllListeners('window-close')
+      mainWindow.close()
+    }
   })
 
   createStaticFileServer(mainWindow)
@@ -267,7 +270,7 @@ app.on('window-all-closed', () => {
     global.fileServer = null
   }
   mainWindow = null
-  windowControls = false
+  isQuitting = false
   if (process.platform !== 'darwin') {
     app.quit()
   }
