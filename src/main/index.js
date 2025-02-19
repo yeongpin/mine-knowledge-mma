@@ -56,12 +56,15 @@ function createFileServer() {
   return `http://localhost:${port}`
 }
 
+let mainWindow = null
+let windowControls = false
+
 function createWindow() {
   // Use path.resolve to ensure the path is correct
   const preloadPath = path.resolve(__dirname, '..', 'preload', 'index.js')
   console.log('Resolved preload path:', preloadPath)
   
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: Number(process.env.VITE_WINDOW_WIDTH) || 1200,
     height: Number(process.env.VITE_WINDOW_HEIGHT) || 800,
     title: process.env.VITE_APP_TITLE || 'Knowledge Base',
@@ -127,10 +130,14 @@ function createWindow() {
       global.fileServer.close()
       global.fileServer = null
     }
+    // Remove all IPC listeners
+    ipcMain.removeAllListeners('window-minimize')
+    ipcMain.removeAllListeners('window-maximize')
+    ipcMain.removeAllListeners('window-close')
   })
 
   ipcMain.on('window-minimize', () => {
-    mainWindow.minimize()
+    if (mainWindow) mainWindow.minimize()
   })
 
   ipcMain.on('window-maximize', () => {
@@ -142,7 +149,12 @@ function createWindow() {
   })
 
   ipcMain.on('window-close', () => {
+    if (!mainWindow) return
     isQuitting = true
+    // Remove all IPC listeners
+    ipcMain.removeAllListeners('window-minimize')
+    ipcMain.removeAllListeners('window-maximize')
+    ipcMain.removeAllListeners('window-close')
     mainWindow.close()
   })
 
@@ -245,13 +257,17 @@ ipcMain.handle('dialog:selectFolder', async () => {
 // Disable remote module
 app.enableSandbox()
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (global.fileServer) {
     global.fileServer.close()
     global.fileServer = null
   }
+  mainWindow = null
+  windowControls = false
   if (process.platform !== 'darwin') {
     app.quit()
   }
@@ -260,6 +276,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
+    setupWindowControls()
   }
 })
 
