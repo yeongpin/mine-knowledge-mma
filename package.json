@@ -57,7 +57,14 @@
           "arch": ["x64", "arm64"]
         }
       ],
-      "icon": "src/assets/icon.icns"
+      "icon": "src/assets/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "notarize": {
+        "teamId": "${{ secrets.APPLE_TEAM_ID }}"
+      }
     },
     "linux": {
       "target": [
