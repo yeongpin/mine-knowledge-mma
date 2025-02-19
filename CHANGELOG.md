@@ -1,4 +1,5 @@
-## [1.0.3.1] - 2025-02-19
+## [1.0.4] - 2025-02-19
+- HotFix some issues
 - Fix the issue that the template selection dialog is not displayed
 
 ## [1.0.3] - 2025-02-19

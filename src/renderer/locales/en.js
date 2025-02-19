@@ -1,7 +1,7 @@
 export default {
   app: {
     title: 'Mine Knowledge MMA',
-    version: '1.0.3',
+    version: '1.0.4',
     newNote: 'New Note'
   },
   menu: {
