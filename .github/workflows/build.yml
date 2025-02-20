@@ -51,7 +51,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ARCH: ${{ matrix.arch }}
-          CSC_IDENTITY_AUTO_DISCOVERY: false
+          # macOS notarization API key
+          CSC_LINK: ${{ secrets.MAC_CERTIFICATE }} 
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
           
       # List dist directory contents
       - name: List dist directory

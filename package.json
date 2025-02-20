@@ -18,6 +18,7 @@
   "build": {
     "appId": "com.mineknowledge.app",
     "productName": "Mine Knowledge MMA",
+    "afterSign": "electron-builder-notarize",
     "directories": {
       "output": "dist"
     },
@@ -62,7 +63,9 @@
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
-      "notarize": false
+      "notarize": {
+        "teamId": "${{ secrets.APPLE_TEAM_ID }}"
+      }
     },
     "linux": {
       "target": [
