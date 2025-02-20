@@ -18,7 +18,7 @@
   "build": {
     "appId": "com.mineknowledge.app",
     "productName": "Mine Knowledge MMA",
-    "afterSign": "electron-builder-notarize",
+    "afterSign": "./node_modules/electron-builder-notarize",
     "directories": {
       "output": "dist"
     },
@@ -112,6 +112,7 @@
     "cross-env": "^7.0.3",
     "electron": "^25.0.0",
     "electron-builder": "^24.3.0",
+    "electron-builder-notarize": "^1.5.1",
     "vite": "^4.5.0",
     "wait-on": "^7.2.0"
   }
