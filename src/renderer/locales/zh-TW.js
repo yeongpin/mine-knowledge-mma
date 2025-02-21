@@ -1,8 +1,11 @@
 export default {
   app: {
     title: '我的 MMA 知識庫',
-    version: '1.0.4',
+    version: '1.0.5',
     newNote: '新建筆記'
+  },
+  todo: {
+    nextUpdate: '下次更新'
   },
   menu: {
     allNotes: '所有筆記',
@@ -11,7 +14,9 @@ export default {
     frequentlyUsed: '常用的知識庫',
     noFavorites: '還沒有收藏的筆記',
     noTrash: '還沒有刪除的筆記',
-    noFrequentlyUsed: '還沒有常用的筆記'
+    noFrequentlyUsed: '還沒有常用的筆記',
+    folders: '文件夾',
+    noFolders: '還沒有文件夾'
   },
   notes: {
     empty: '還沒有筆記',

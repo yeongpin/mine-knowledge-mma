@@ -1,3 +1,10 @@
+
+## [1.0.5] - 2025-02-21
+- Add Favorite and Trash list
+- Fix some issues
+- Update localization files
+- Bump project version to 1.0.5
+
 ## [1.0.4] - 2025-02-19
 - HotFix some issues
 - Fix the issue that the template selection dialog is not displayed

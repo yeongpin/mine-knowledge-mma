@@ -39,30 +39,15 @@
         </el-menu>
 
         <!-- Frequently used knowledge base list -->
-        <div class="frequently-used">
-          <h2>{{ $t('menu.frequentlyUsed') }}</h2>
-          <div v-if="favorites.length" class="favorites-list">
-            <div v-for="item in favorites" :key="item.id" 
-              @click="handleFavoriteClick(item)"
-              class="favorite-item"
-            >
-              <el-icon><Collection /></el-icon>
-              <span class="favorite-name">{{ item.name }}</span>
-              <el-button 
-                link 
-                type="warning" 
-                size="small" 
-                @click.stop="removeFavorite(item)"
-              >
-                <el-icon><StarFilled /></el-icon>
-              </el-button>
-            </div>
-          </div>
-          <div v-else class="empty-favorites">
-            <el-icon><Star /></el-icon>
-            <span>{{ $t('menu.noFavorites') }}</span>
-          </div>
-        </div>
+        <FrequentlyUsedList 
+          :favorites="favorites" 
+          :handleFavoriteClick="handleFavoriteClick" 
+          :removeFavorite="removeFavorite" 
+        />
+
+        <!-- Folder list -->
+        <FolderList />
+
 
         <!-- Create note dialog -->
         <el-dialog
@@ -99,6 +84,8 @@ import { useNotesStore } from './stores/notes'
 import { useTrashStore } from './stores/trash'
 import CreateSection from './components/CreateSection.vue'
 import { useI18n } from 'vue-i18n'
+import FrequentlyUsedList from './components/FrequentlyUsedList.vue'
+import FolderList from './components/FolderList.vue'
 const router = useRouter()
 const favoritesStore = useFavoritesStore()
 const notificationsStore = useNotificationsStore()
@@ -262,18 +249,6 @@ const handleNoteCreated = () => {
   background-color: var(--el-bg-color);
 }
 
-.frequently-used {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid var(--bg-300);
-}
-
-.section-title {
-  padding: 0 12px 8px;
-  color: var(--text-200);
-  font-size: 13px;
-  font-weight: 500;
-}
 
 /* Ensure the styles of the two menus are consistent */
 :deep(.el-menu + .el-menu) {
@@ -291,64 +266,5 @@ const handleNoteCreated = () => {
   color: var(--primary-300);
 }
 
-.favorites-list {
-  margin-top: 16px;
-}
 
-.favorite-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-  cursor: pointer;
-}
-
-.favorite-item:hover {
-  background-color: var(--el-fill-color-light);
-}
-
-.favorite-item .el-icon {
-  font-size: 18px;
-  color: var(--el-text-color-regular);
-}
-
-.favorite-name {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
-  color: var(--el-text-color-regular);
-}
-
-/* Adjust the style of the cancel favorite button */
-.favorite-item .el-button {
-  padding: 4px;
-}
-
-.favorite-item .el-button .el-icon {
-  font-size: 16px;
-  color: var(--el-color-warning);
-}
-
-.favorite-item .el-button:hover {
-  background-color: transparent;
-  opacity: 0.8;
-}
-
-.empty-favorites {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
-  color: var(--el-text-color-secondary);
-}
-
-.empty-favorites .el-icon {
-  font-size: 24px;
-  margin-bottom: 8px;
-}
 </style> 

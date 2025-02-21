@@ -1,8 +1,11 @@
 export default {
   app: {
     title: 'Mine Knowledge MMA',
-    version: '1.0.4',
+    version: '1.0.5',
     newNote: 'New Note'
+  },
+  todo: {
+    nextUpdate: 'Next Update'
   },
   menu: {
     allNotes: 'All Notes',
@@ -11,7 +14,9 @@ export default {
     frequentlyUsed: 'Frequently Used',
     noFavorites: 'No Favorites',
     noTrash: 'No Trash',
-    noFrequentlyUsed: 'No Frequently Used'
+    noFrequentlyUsed: 'No Frequently Used',
+    folders: 'Folders',
+    noFolders: 'No Folders'
   },
   notes: {
     empty: 'No notes yet',
