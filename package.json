@@ -87,7 +87,6 @@
     "@vavt/v3-extension": "^3.0.0",
     "@vueuse/core": "^10.0.0",
     "cropperjs": "^1.6.2",
-    "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "electron-store": "^8.1.0",
     "element-plus": "^2.9.4",
