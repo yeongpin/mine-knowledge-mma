@@ -1,7 +1,7 @@
 export default {
   app: {
     title: 'Mine Knowledge MMA',
-    version: '1.0.5',
+    version: '1.0.6',
     newNote: 'New Note'
   },
   todo: {

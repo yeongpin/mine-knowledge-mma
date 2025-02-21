@@ -1,7 +1,7 @@
 export default {
   app: {
     title: '我的 MMA 知識庫',
-    version: '1.0.5',
+    version: '1.0.6',
     newNote: '新建筆記'
   },
   todo: {
