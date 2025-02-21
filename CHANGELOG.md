@@ -1,3 +1,13 @@
+## [1.0.6] - 2025-02-21
+- Add translation feature with Google Translate integration
+- Implement TranslatePopup component for text translation
+- Add translation functionality in main process using node-fetch
+- Update preload and main process to support text translation
+- Add language translation options for multiple languages
+- Include FontAwesome for language icon
+- Update localization files with translation-related strings
+- Modify Markdown editor toolbar to include translation button
+- Bump project version to 1.0.6
 
 ## [1.0.5] - 2025-02-21
 - Add Favorite and Trash list

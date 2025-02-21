@@ -39,6 +39,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readFolder: (folderPath) => ipcRenderer.invoke('folder:read', folderPath),
   openExternal: (url) => ipcRenderer.invoke('open-external-link', url),
   getChangelog: () => ipcRenderer.invoke('get:changelog'),
+  translateText: (params) => ipcRenderer.invoke('translate-text', params),
 })
 
 console.log('=== Preload script initialized ===') 

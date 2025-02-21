@@ -31,6 +31,7 @@
       <Emoji>
         <template #trigger> <el-icon><Emoji /></el-icon> </template>
       </Emoji>
+      <TranslatePopup />
     </template>
   </MdEditor>
     <div v-else class="empty-state">
@@ -58,6 +59,8 @@ import mermaid from 'mermaid'
 import * as prettier from 'prettier'
 import parserMarkdown from 'prettier/plugins/markdown'
 import highlight from 'highlight.js'
+import TranslatePopup from '../components/TranslatePopup.vue'
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 import ZH_TW from '@vavt/cm-extension/dist/locale/zh-TW';
 
@@ -267,6 +270,7 @@ const toolbars = [
   'orderedList',
   'task',
   '-',
+  1,
   'codeRow',
   'code',
   'link',

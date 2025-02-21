@@ -9,6 +9,7 @@
 [![Release](https://img.shields.io/github/v/release/yeongpin/mine-knowledge-mma?style=flat-square&logo=github&color=blue)](https://github.com/yeongpin/mine-knowledge-mma/releases/latest)
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 [![Stars](https://img.shields.io/github/stars/yeongpin/mine-knowledge-mma?style=flat-square&logo=github)](https://github.com/yeongpin/mine-knowledge-mma/stargazers)
+[![Downloads](https://img.shields.io/github/downloads/yeongpin/mine-knowledge-mma/total?style=flat-square&logo=github)](https://github.com/yeongpin/mine-knowledge-mma/releases)
 
 A modern and efficient personal knowledge management system built with Electron and Vue.js.
 
@@ -44,6 +45,7 @@ A modern and efficient personal knowledge management system built with Electron 
 | 📊 History Tracking | Track your recent note modifications |
 | 🔄 Auto Save | Automatic saving of your work |
 | 💾 Local Storage | All data stored locally for privacy |
+| 🔄 Translation | Translate text between multiple languages |
 
 ## 🚀 Getting Started
 

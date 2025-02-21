@@ -6,6 +6,7 @@ const os = require('os')
 const express = require('express')
 const http = require('http')
 const https = require('https')
+const fetch = require('node-fetch')
 
 // Load environment variables
 dotenv.config()
@@ -105,7 +106,7 @@ function createWindow() {
   
   // Use Vite development server in development environment
   if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL('http://localhost:3000')
+    mainWindow.loadURL('http://localhost:2511')
     mainWindow.webContents.openDevTools()
     
     // Add this line to check if the preload is loaded
@@ -472,4 +473,49 @@ ipcMain.handle('get:changelog', async () => {
 
 ipcMain.handle('open-external-link', async (event, url) => {
   await shell.openExternal(url)
+})
+
+// Add this function to handle translation
+async function handleTranslate(text, fromLang, toLang) {
+  try {
+    const url = new URL('https://translate.googleapis.com/translate_a/single')
+    url.searchParams.append('client', 'gtx')
+    url.searchParams.append('sl', fromLang)
+    url.searchParams.append('tl', toLang)
+    url.searchParams.append('dt', 't')
+    url.searchParams.append('q', text)
+
+    const response = await fetch(url.toString(), {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36'
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    
+    // 确保数据格式正确
+    if (!data || !Array.isArray(data[0])) {
+      throw new Error('Invalid response format')
+    }
+
+    // 提取翻译结果
+    const translatedText = data[0]
+      .filter(item => item && item[0])
+      .map(item => item[0])
+      .join('')
+
+    return translatedText
+  } catch (error) {
+    console.error('Translation error:', error)
+    throw error
+  }
+}
+
+// Add this in your createWindow function or where you set up IPC handlers
+ipcMain.handle('translate-text', async (event, { text, fromLang, toLang }) => {
+  return await handleTranslate(text, fromLang, toLang)
 })

@@ -90,7 +90,11 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel',
     back: 'Back',
-    backConfirm: 'Are you sure you want to leave?'
+    backConfirm: 'Are you sure you want to leave?',
+    enterText: 'Enter text to translate',
+    translate: 'Translate',
+    translateError: 'Translation failed',
+    translateSuccess: 'Translation successful'
   },
   notifications: {
     saveSuccess: 'Save Success',
@@ -131,5 +135,38 @@ export default {
     importPictures: 'Import Pictures',
     importPicturesSuccess: 'Import Pictures Success',
     importPicturesFailed: 'Import Pictures Failed'
+  },
+  translate: {
+    auto: 'Auto',
+    english: 'English',
+    chinese: 'Chinese',
+    japanese: 'Japanese',
+    korean: 'Korean',
+    french: 'French',
+    german: 'German',
+    spanish: 'Spanish',
+    italian: 'Italian',
+    portuguese: 'Portuguese',
+    russian: 'Russian',
+    arabic: 'Arabic',
+    turkish: 'Turkish',
+    dutch: 'Dutch',
+    hindi: 'Hindi',
+    polish: 'Polish',
+    romanian: 'Romanian',
+    hungarian: 'Hungarian',
+    czech: 'Czech',
+    swedish: 'Swedish',
+    norwegian: 'Norwegian',
+    danish: 'Danish',
+    finnish: 'Finnish',
+    greek: 'Greek',
+    bulgarian: 'Bulgarian',
+    croatian: 'Croatian',
+    lithuanian: 'Lithuanian',
+    latvian: 'Latvian',
+    macedonian: 'Macedonian',
+    malay: 'Malay',
+    maltese: 'Maltese'
   }
 } 

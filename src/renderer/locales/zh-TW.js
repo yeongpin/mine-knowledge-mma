@@ -88,7 +88,11 @@ export default {
     warning: '警告',
     confirm: '確定',
     cancel: '取消',
-    backConfirm: '確定要返回嗎？'
+    backConfirm: '確定要返回嗎？',
+    enterText: '請輸入要翻譯的文字',
+    translate: '翻譯',
+    translateError: '翻譯失敗',
+    translateSuccess: '翻譯成功'
   },
   notifications: {
     saveSuccess: '保存成功',
@@ -128,5 +132,39 @@ export default {
     importPictures: '導入圖片',
     importPicturesSuccess: '導入圖片成功',
     importPicturesFailed: '導入圖片失敗'
+  },
+  translate: {
+    auto: '自動',
+    english: '英文',
+    chineset: '繁體中文',
+    chineses: '簡體中文',
+    japanese: '日文',
+    korean: '韓文',
+    french: '法文',
+    german: '德文',
+    spanish: '西班牙文',
+    italian: '義大利文',
+    portuguese: '葡萄牙文',
+    russian: '俄文',
+    arabic: '阿拉伯文',
+    turkish: '土耳其文',
+    dutch: '荷蘭文',
+    hindi: '印地文',
+    polish: '波蘭文',
+    romanian: '羅馬尼亞文',
+    hungarian: '匈牙利文',
+    czech: '捷克文',
+    swedish: '瑞典文',
+    norwegian: '挪威文',
+    danish: '丹麥文',
+    finnish: '芬蘭文',
+    greek: '希臘文',
+    bulgarian: '保加利亞文',
+    croatian: '克羅埃西亞文',
+    lithuanian: '立陶宛文',
+    latvian: '拉脫維亞文',
+    macedonian: '馬其頓文',
+    malay: '馬來文',
+    maltese: '馬爾他文'
   }
 } 

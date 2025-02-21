@@ -1,13 +1,13 @@
 {
   "name": "mine-knowledge-mma",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A Markdown knowledge base application",
   "main": "src/main/index.js",
   "author": "yeongpin",
   "scripts": {
     "dev": "electron .",
-    "electron:serve": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on tcp:3000 && electron .\" --kill-others",
-    "electron:dev": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on tcp:3000 && electron .\" --kill-others",
+    "electron:serve": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on tcp:2511 && electron .\" --kill-others",
+    "electron:dev": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on tcp:2511 && electron .\" --kill-others",
     "build": "vite build && electron-builder",
     "preview": "vite preview",
     "start": "electron-forge start",
@@ -46,7 +46,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "src/assets/icon.ico"
@@ -55,7 +57,10 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "icon": "src/assets/icon.icns",
@@ -69,7 +74,9 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "src/assets/icon.png"
@@ -83,6 +90,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@vavt/cm-extension": "^1.8.0",
     "@vavt/v3-extension": "^3.0.0",
     "@vueuse/core": "^10.0.0",
@@ -97,6 +105,7 @@
     "markdown-it": "^14.1.0",
     "md-editor-v3": "^5.2.3",
     "mermaid": "^11.4.1",
+    "node-fetch": "^2.7.0",
     "pinia": "^2.3.1",
     "prettier": "^3.5.1",
     "screenfull": "^6.0.2",
